@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<robot name="spacelab_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Definition of the camera joint --> 
+  <joint name="joint_EE.cam3D" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0 -0.025 0.09" rpy="0 0 0"/>
+    <parent link="link_EE"/>
+    <child link="link_cam3D"/>
+  </joint>
+
+  <!-- Definition of the camera link that will be used to position the 3D shape --> 
+  <link name="link_cam3D">
+    <collision>
+        <geometry>
+        <mesh filename="package://isaacsim_rviz_training/models/meshes/CAMERA.dae"/>
+        </geometry>
+    </collision>
+    <visual>
+        <geometry>
+        <mesh filename="package://isaacsim_rviz_training/models/meshes/CAMERA.dae"/>
+        </geometry>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- Definition of additional camera joint that will be used to position the camera sensor--> 
+  <joint name="joint_cam3D.camSensor" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz="0 -0.05 0" rpy="0 0 -1.570796"/>
+    <parent link="link_cam3D"/>
+    <child link="link_camSensor"/>
+  </joint>
+
+  <link name="link_camSensor">
+  </link>
+
+  <!-- Definition of additional camera joint that will be used to position the camera focal--> 
+  <joint name="joint_camSensor.camFocale" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.570796 0 -1.570796"/>
+    <parent link="link_camSensor"/>
+    <child link="link_camFocale"/>
+  </joint>
+  
+  <link name="link_camFocale">
+  </link>
+
+  <!-- Definition of the camera as a sensor inside gazebo --> 
+  <gazebo reference="link_camSensor">
+    <sensor type="camera" name="camera1">
+      <pose> 0 0 0 0 0 0 </pose>
+      <!-- Can be turned to true in order to activate vizualisation in gazebo -->
+      <visualize>false</visualize>
+      <update_rate>10</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.05</near>
+          <far>10</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <!-- Definition of the gazebo plugin to be used to simulmate the camera interfaces -->
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <frameName>link_camFocale</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>

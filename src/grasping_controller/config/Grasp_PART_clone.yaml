@@ -1,0 +1,13 @@
+/grasping_lifecycle_node:
+  ros__parameters:
+    fix_frame: test_robot::link_7
+    mobile_element: PART_clone
+    get_state: false
+    position_x: 0.0
+    position_y: 0.34
+    position_z: 0.0
+    orientation_x: 0.0
+    orientation_y: 0.5
+    orientation_z: 0.0
+    orientation_w: 0.5
+    use_sim_time: true
