@@ -1,0 +1,33 @@
+[2.694s] Invoking command in '/home/spacefactory5/workspaces/ros2_ws_training2.bis/src/grasping_controller': PYTHONPATH=/home/spacefactory5/workspaces/ros2_ws_training2.bis/build/grasping_controller/prefix_override:/home/spacefactory5/workspaces/ros2_ws_training2.bis/install/grasping_controller/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/grasping_controller build --build-base /home/spacefactory5/workspaces/ros2_ws_training2.bis/build/grasping_controller/build install --record /home/spacefactory5/workspaces/ros2_ws_training2.bis/build/grasping_controller/install.log --single-version-externally-managed
+[3.309s] running egg_info
+[3.343s] writing ../../build/grasping_controller/grasping_controller.egg-info/PKG-INFO
+[3.343s] writing dependency_links to ../../build/grasping_controller/grasping_controller.egg-info/dependency_links.txt
+[3.343s] writing entry points to ../../build/grasping_controller/grasping_controller.egg-info/entry_points.txt
+[3.343s] writing requirements to ../../build/grasping_controller/grasping_controller.egg-info/requires.txt
+[3.343s] writing top-level names to ../../build/grasping_controller/grasping_controller.egg-info/top_level.txt
+[3.564s] writing manifest file '../../build/grasping_controller/grasping_controller.egg-info/SOURCES.txt'
+[3.564s] running build
+[3.564s] running build_py
+[3.564s] running install
+[3.564s] /home/spacefactory5/.local/share/ov/pkg/isaac_sim-2023.1.1/kit/exts/omni.kit.pip_archive/pip_prebundle/setuptools/_distutils/cmd.py:66: SetuptoolsDeprecationWarning: setup.py install is deprecated.
+[3.564s] !!
+[3.564s] 
+[3.564s]         ********************************************************************************
+[3.564s]         Please avoid running ``setup.py`` directly.
+[3.565s]         Instead, use pypa/build, pypa/installer or other
+[3.565s]         standards-based tools.
+[3.565s] 
+[3.565s]         See https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html for details.
+[3.565s]         ********************************************************************************
+[3.565s] 
+[3.565s] !!
+[3.565s]   self.initialize_options()
+[3.572s] running install_lib
+[3.602s] running install_data
+[3.635s] running install_egg_info
+[3.663s] removing '/home/spacefactory5/workspaces/ros2_ws_training2.bis/install/grasping_controller/lib/python3.10/site-packages/grasping_controller-0.20.3-py3.10.egg-info' (and everything under it)
+[3.663s] Copying ../../build/grasping_controller/grasping_controller.egg-info to /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/grasping_controller/lib/python3.10/site-packages/grasping_controller-0.20.3-py3.10.egg-info
+[3.663s] running install_scripts
+[3.943s] Installing grasping_controller script to /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/grasping_controller/lib/grasping_controller
+[3.944s] writing list of installed files to '/home/spacefactory5/workspaces/ros2_ws_training2.bis/build/grasping_controller/install.log'
+[3.965s] Invoked command in '/home/spacefactory5/workspaces/ros2_ws_training2.bis/src/grasping_controller' returned '0': PYTHONPATH=/home/spacefactory5/workspaces/ros2_ws_training2.bis/build/grasping_controller/prefix_override:/home/spacefactory5/workspaces/ros2_ws_training2.bis/install/grasping_controller/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/grasping_controller build --build-base /home/spacefactory5/workspaces/ros2_ws_training2.bis/build/grasping_controller/build install --record /home/spacefactory5/workspaces/ros2_ws_training2.bis/build/grasping_controller/install.log --single-version-externally-managed

@@ -1,0 +1,113 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.7 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Found rclpy: 3.3.11 (/opt/ros/humble/share/rclpy/cmake)
+-- Found ament_lint_auto: 0.12.10 (/opt/ros/humble/share/ament_lint_auto/cmake)
+-- Configuring done (4.4s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/spacefactory5/workspaces/ros2_ws_training2.bis/build/isaacsim_rviz_training
+-- Install configuration: ""
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/gripper_open.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/init2_position.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/init_rviz.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/init1_position.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/gripper_close.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/start_world.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/place_far_position.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/publish_urdf.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/rest_position.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/spawn_robot_ros2.launch.xml
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/pick_position.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/test.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/place_position.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/sl_robot.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/spawn_robot_description.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//launch/pick_far_position.launch.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/usd
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/usd/spacelab_scene_robot.usd
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/usd/spacelab_robot.usd
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/usd/spacelab_scene.usd
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/urdf
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/urdf/gripper.xacro
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/urdf/robot_core.xacro
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/urdf/camera.xacro
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/urdf/robot_gazebo.xacro
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/urdf/spacelab_robot.urdf
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/urdf/lidar.xacro
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/urdf/inertial_macros.xacro
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/urdf/spacelab_robot.urdf.xacro
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/urdf/ros2_control.xacro
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/workbenches.stp
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/workbenches.usd
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/part2.stp
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/part3.stp
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/part4.stp
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/part.usd
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/part4.usd
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/part3.usd
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/parts_square.usd
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/part2.usd
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/part.stp
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/stp/parts_square.stp
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/LIDAR_STRUCTURE.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/Shoulder.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/Wrist1.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/Wrist3.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/LIDAR.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/CAMERA.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/Forearm.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/RADICART_FULL.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/WORKBENCH.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/ROBOT_STRUCTURE.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/UpperArm.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/STORAGE.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/PART.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/Wrist2.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/END_EFFECTOR.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/RADICART_FULL_STRUCTURE.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/RADICART_FULL_PARTS.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//models/meshes/Base.dae
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//scripts
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//scripts/isaac_sim_urdf_import.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//scripts/import_3D_2.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//scripts/Listen_Command_robot_example.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//scripts/Command_robot.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//scripts/import_3D_1.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//scripts/sl_robot_isaac_ros2.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//scripts/Command_gripper.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//config
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//config/my_controllers.yaml
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//config/example.rviz
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//config/slrobot_ros_params.yaml
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/lib/isaacsim_rviz_training/sl_robot_isaac_ros2.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/lib/isaacsim_rviz_training/isaac_sim_urdf_import.py
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/ament_index/resource_index/package_run_dependencies/isaacsim_rviz_training
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/ament_index/resource_index/parent_prefix_path/isaacsim_rviz_training
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/environment/ament_prefix_path.sh
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/environment/ament_prefix_path.dsv
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/environment/path.sh
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/environment/path.dsv
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/local_setup.bash
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/local_setup.sh
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/local_setup.zsh
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/local_setup.dsv
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/package.dsv
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/ament_index/resource_index/packages/isaacsim_rviz_training
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/cmake/isaacsim_rviz_trainingConfig.cmake
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/cmake/isaacsim_rviz_trainingConfig-version.cmake
+-- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/package.xml
