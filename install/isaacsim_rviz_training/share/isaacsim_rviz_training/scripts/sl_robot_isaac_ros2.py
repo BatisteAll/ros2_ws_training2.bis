@@ -33,18 +33,18 @@ class sl_robot_isaac_ros2(Node):
     """Class to simulate Space Lab Robot in Isaac Sim"""
 
     ur5_joint_names = [
-        "joint_world.1",
-        "joint_1.2",
-        "joint_2.3",
-        "joint_3.4",
-        "joint_4.5",
-        "joint_5.6",
-        "joint_6.7",
+        "joint_world_1",
+        "joint_1_2",
+        "joint_2_3",
+        "joint_3_4",
+        "joint_4_5",
+        "joint_5_6",
+        "joint_6_7",
     ]
 
     gripper_joint_names = [
-        "joint_7.Lgripper",
-        "joint_7.Rgripper",
+        "joint_7_Lgripper",
+        "joint_7_Rgripper",
     ]
 
     def __init__(self):
@@ -73,6 +73,11 @@ class sl_robot_isaac_ros2(Node):
             ActionClient(self,
                          FollowJointTrajectory,
                          'sl_robot_gripper/follow_joint_trajectory')
+
+        ###############################
+        # JOINT STATE PUBLISHER
+        ###############################      
+        # self.js_publisher = self.create_publisher(sensor_msgs.jointStates, 'blblbl', 10)
 
         ###############################
         # ROS PARAMETERS
@@ -112,7 +117,7 @@ class sl_robot_isaac_ros2(Node):
         ###############################
         # self.interactive_marker_server =\
         #     InteractiveMarkerServer(node=self,
-        #                             namespace='interactive_markers')
+        #                             namespace='interactive_markers')joint
         # self.iteractive_marker_ur5 =\
         #     InteractiveMarkerUR5(self.interactive_marker_server,
         #                          self.send_goal,

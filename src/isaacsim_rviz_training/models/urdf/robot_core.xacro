@@ -70,7 +70,7 @@
   </link>
   
   <!-- Definition of the 1st joint --> 
-  <joint name="joint_1.2" type="revolute">
+  <joint name="joint_1_2" type="revolute">
     <parent link="link_1"/>
     <child link="link_2"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.1273"/>
@@ -102,7 +102,7 @@
   </link>
   
   <!-- Definition of the 2nd joint -->
-  <joint name="joint_2.3" type="revolute">
+  <joint name="joint_2_3" type="revolute">
     <parent link="link_2"/>
     <child link="link_3"/>
     <origin rpy="0.0 1.570796325 0.0" xyz="0.0 0.220941 0.0"/>
@@ -134,7 +134,7 @@
   </link>
   
   <!-- Definition of the 3rd joint -->
-  <joint name="joint_3.4" type="revolute">
+  <joint name="joint_3_4" type="revolute">
     <parent link="link_3"/>
     <child link="link_4"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.0 -0.1719 0.612"/>
@@ -166,7 +166,7 @@
   </link>
 
   <!-- Definition of the 4th joint -->
-  <joint name="joint_4.5" type="revolute">
+  <joint name="joint_4_5" type="revolute">
     <parent link="link_4"/>
     <child link="link_5"/>
     <origin rpy="0.0 1.570796325 0.0" xyz="0.0 0.0 0.5723"/>
@@ -198,7 +198,7 @@
   </link>
 
   <!-- Definition of the 5th joint -->
-  <joint name="joint_5.6" type="revolute">
+  <joint name="joint_5_6" type="revolute">
     <parent link="link_5"/>
     <child link="link_6"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.0 0.1149 0.0"/>
@@ -230,7 +230,7 @@
   </link>
   
   <!-- Definition of the 6th joint -->
-  <joint name="joint_6.7" type="revolute">
+  <joint name="joint_6_7" type="revolute">
     <parent link="link_6"/>
     <child link="link_7"/>
     <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.1157"/>

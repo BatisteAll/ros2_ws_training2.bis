@@ -1,0 +1,13 @@
+/home/spacefactory5/.local/share/ov/pkg/isaac_sim-2023.1.1/kit/exts/omni.kit.pip_archive/pip_prebundle/setuptools/_distutils/cmd.py:66: SetuptoolsDeprecationWarning: setup.py install is deprecated.
+!!
+
+        ********************************************************************************
+        Please avoid running ``setup.py`` directly.
+        Instead, use pypa/build, pypa/installer or other
+        standards-based tools.
+
+        See https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html for details.
+        ********************************************************************************
+
+!!
+  self.initialize_options()

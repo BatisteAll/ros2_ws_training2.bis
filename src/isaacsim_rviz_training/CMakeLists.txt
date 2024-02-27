@@ -28,7 +28,7 @@ install(
 install(
   PROGRAMS
     scripts/sl_robot_isaac_ros2.py
-    scripts/isaac_sim_urdf_import.py
+    scripts/isaac_sim_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

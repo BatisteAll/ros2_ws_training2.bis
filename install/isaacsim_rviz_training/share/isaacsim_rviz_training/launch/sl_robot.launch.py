@@ -12,7 +12,9 @@ from launch.event_handlers import OnProcessStart, OnProcessExit
 
 def generate_launch_description():
 
-    # Call xacro to parse and create the full .urdf file
+    ########################
+    #     URDF PARSING     #
+    ########################
     print("[INFO]  [sl_robot.launch.py] Parsing URDF ==>")
     robot_description_content = Command(
         [
@@ -24,6 +26,9 @@ def generate_launch_description():
     )
 
 
+    ########################
+    #    ROBOT STATE PUB   #
+    ########################
     # Instentiate the robot_state_publisher node
     robot_description = {"robot_description": robot_description_content}
     robot_state_publisher_node = Node(
@@ -56,6 +61,10 @@ def generate_launch_description():
     #     executable='gripper_controller'
     # )
 
+
+    ########################
+    #   ISAAC/ROS2 BRIDGE  #
+    ########################
     # Instentiate the sl_robot_isaac_ros2 node
     isaacsim_rviz_training = Node(
         package="isaacsim_rviz_training",
@@ -76,6 +85,10 @@ def generate_launch_description():
     #     output='screen'
     # )
 
+
+    ########################
+    # ISAAC SIMULATION APP #
+    ########################
     # Instentiate Isaac Sim
     isaacsim_node = Node(
         package="isaacsim_rviz_training",

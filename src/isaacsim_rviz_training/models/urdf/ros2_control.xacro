@@ -1,94 +1,84 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-                <!-- Definition of the parameters associated to ros2_control --> 
-		<ros2_control name="GazeboSimSystem" type="system">
-		   <hardware>
-		      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
-	    	   </hardware>
-	    	   <joint name="joint_1.2">
-	    		<!-- Definition of the command interface-->
-	    		<command_interface name="position">
-	    		        <!-- Definition of joints position limits-->
-	    			<param name="min">-3.14</param>
-	    			<param name="max">3.14</param>
-	    		</command_interface>
-	    		<!-- Definition of the state interfaces-->
-	    		<state_interface name="position"/>
-	    		<state_interface name="velocity"/>
-	    		<state_interface name="effort"/>
-	    	   </joint>
-	    	   <joint name="joint_2.3">
-	    		<command_interface name="position">
-	    			<param name="min">-3.14</param>
-	    			<param name="max">3.14</param>
-	    		</command_interface>
-	    		<state_interface name="position"/>
-	    		<state_interface name="velocity"/>
-	    		<state_interface name="effort"/>
-	    	   </joint>
-	    	   <joint name="joint_3.4">
-	    		<command_interface name="position">
-	    			<param name="min">-3.14</param>
-	    			<param name="max">3.14</param>
-	    		</command_interface>
-	    		<state_interface name="position"/>
-	    		<state_interface name="velocity"/>
-	    		<state_interface name="effort"/>
-	    	   </joint>
-	    	   <joint name="joint_4.5">
-	    		<command_interface name="position">
-	    			<param name="min">-3.14</param>
-	    			<param name="max">3.14</param>
-	    		</command_interface>
-	    		<state_interface name="position"/>
-	    		<state_interface name="velocity"/>
-	    		<state_interface name="effort"/>
-	    	   </joint>
-	    	   <joint name="joint_5.6">
-	    		<command_interface name="position">
-	    			<param name="min">-3.14</param>
-	    			<param name="max">3.14</param>
-	    		</command_interface>
-	    		<state_interface name="position"/>
-	    		<state_interface name="velocity"/>
-	    		<state_interface name="effort"/>
-	    	   </joint>
-	    	   <joint name="joint_6.7">
-	    		<command_interface name="position">
-	    			<param name="min">-3.14</param>
-	    			<param name="max">3.14</param>
-	    		</command_interface>
-	    		<state_interface name="position"/>
-	    		<state_interface name="velocity"/>
-	    		<state_interface name="effort"/>
-	    	   </joint>
-	           <joint name="joint_EE.Lgripper">
-                        <command_interface name="position">
-                                <param name="min">0.0</param>
-                                <param name="max">0.02</param>
-                        </command_interface>
-                        <state_interface name="position"/>
-                        <state_interface name="velocity"/>
-                        <state_interface name="effort"/>
-                   </joint> 
-                   <joint name="joint_EE.Rgripper">
-                        <param name="mimic">joint_EE.Lgripper</param>
-                        <param name="multiplier">-1</param>
-                        <command_interface name="position"/>
-                        <state_interface name="position"/>
-                        <state_interface name="velocity"/>
-                        <state_interface name="effort"/>
-                   </joint> 
-	  	</ros2_control>
-                <!-- Definition of the gazebo ros2_control interface plugin-->
-		<gazebo>
-	            <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
-					<ros>
-						<namespace>/test_namespace</namespace>
-					</ros>
-			<parameters>$(find isaacsim_rviz_training)/config/my_controllers.yaml</parameters>
-		    </plugin>
-		</gazebo>
-
+       <!-- Definition of the parameters associated to ros2_control --> 
+	<ros2_control name="SpacelabRobotPositionningSystem" type="system">
+		<hardware>
+		   <plugin>ros2_control_spacelab_robot/SpacelabRobotPositionningSystem</plugin>
+	    </hardware>
+		<joint name="joint_1_2">
+		<!-- Definition of the command interface-->
+			<command_interface name="position">
+				<!-- Definition of joints position limits-->
+				<param name="min">-3.14</param>
+				<param name="max">3.14</param>
+			</command_interface>
+			<!-- Definition of the state interfaces-->
+			<state_interface name="position"/>
+			<state_interface name="velocity"/>
+			<state_interface name="effort"/>
+		</joint>
+		<joint name="joint_2_3">
+			<command_interface name="position">
+				<param name="min">-3.14</param>
+				<param name="max">3.14</param>
+			</command_interface>
+			<state_interface name="position"/>
+			<state_interface name="velocity"/>
+			<state_interface name="effort"/>
+		</joint>
+		<joint name="joint_3_4">
+			<command_interface name="position">
+				<param name="min">-3.14</param>
+				<param name="max">3.14</param>
+			</command_interface>
+			<state_interface name="position"/>
+			<state_interface name="velocity"/>
+			<state_interface name="effort"/>
+		</joint>
+		<joint name="joint_4_5">
+			<command_interface name="position">
+				<param name="min">-3.14</param>
+				<param name="max">3.14</param>
+			</command_interface>
+			<state_interface name="position"/>
+			<state_interface name="velocity"/>
+			<state_interface name="effort"/>
+		</joint>
+		<joint name="joint_5_6">
+			<command_interface name="position">
+				<param name="min">-3.14</param>
+				<param name="max">3.14</param>
+			</command_interface>
+			<state_interface name="position"/>
+			<state_interface name="velocity"/>
+			<state_interface name="effort"/>
+		</joint>
+		<joint name="joint_6_7">
+			<command_interface name="position">
+				<param name="min">-3.14</param>
+				<param name="max">3.14</param>
+			</command_interface>
+			<state_interface name="position"/>
+			<state_interface name="velocity"/>
+			<state_interface name="effort"/>
+		</joint>
+		<joint name="joint_EE_Lgripper">
+			<command_interface name="position">
+				<param name="min">0.0</param>
+				<param name="max">0.02</param>
+			</command_interface>
+			<state_interface name="position"/>
+			<state_interface name="velocity"/>
+			<state_interface name="effort"/>
+		</joint> 
+		<joint name="joint_EE_Rgripper">
+				<param name="mimic">joint_EE_Lgripper</param>
+				<param name="multiplier">-1</param>
+			<command_interface name="position"/>
+			<state_interface name="position"/>
+			<state_interface name="velocity"/>
+			<state_interface name="effort"/>
+		</joint> 
+	</ros2_control>
 </robot>
