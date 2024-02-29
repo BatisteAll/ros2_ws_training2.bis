@@ -10,6 +10,4 @@
     <xacro:include filename="camera.xacro" />
     <!-- This file contain the ros2 control parameters of the robot -->
     <xacro:include filename="ros2_control.xacro" />
-    <!-- This file contain the gazebo parameters of the robot -->
-    <xacro:include filename="robot_gazebo.xacro" />
 </robot>

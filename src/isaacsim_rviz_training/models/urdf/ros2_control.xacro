@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-       <!-- Definition of the parameters associated to ros2_control --> 
+       <!-- ROBOT PLUGIN --> 
 	<ros2_control name="SpacelabRobotPositionningSystem" type="system">
 		<hardware>
-		   <plugin>ros2_control_spacelab_robot/SpacelabRobotPositionningSystem</plugin>
+		   <plugin>mock_components/GenericSystem</plugin>
 	    </hardware>
 		<joint name="joint_1_2">
 		<!-- Definition of the command interface-->

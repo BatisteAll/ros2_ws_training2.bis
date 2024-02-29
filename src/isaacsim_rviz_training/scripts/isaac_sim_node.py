@@ -14,16 +14,13 @@ simulation_app = SimulationApp(CONFIG)
 ########################
 #        IMPORTS       #
 ########################
-# from omni.isaac.core import World
-# from omni.isaac.franka.controllers.rmpflow_controller import RMPFlowController
-# from omni.isaac.franka.tasks import FollowTarget
 import omni.graph.core as og
 import os
 import ament_index_python
 import numpy as np
 import usdrt.Usd
 from omni.isaac.core import SimulationContext
-from omni.isaac.core.utils import extensions, nucleus, prims, rotations, stage, viewports
+from omni.isaac.core.utils import extensions, prims, rotations, stage, viewports
 from pxr import Gf
 from omni.isaac.sensor import Camera
 
@@ -33,13 +30,14 @@ from omni.isaac.sensor import Camera
 #   CONST DEFINITION   #
 ########################
 PKG_NAME = "isaacsim_rviz_training"
-# Get the package directory from the current script path
-# PKG_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Get the package directory
 PKG_PATH = os.path.join(ament_index_python.packages.get_package_share_directory(PKG_NAME))
-BACKGROUND_STAGE_PATH = "/World/spacelab_scene"
+# USD paths
 BACKGROUND_USD_PATH = "/models/usd/spacelab_scene.usd"
-SPACELAB_ROBOT_STAGE_PATH = "/World/spacelab_robot"
 SPACELAB_ROBOT_USD_PATH = "/models/usd/spacelab_robot.usd"
+# ISAAC SIM prim path
+BACKGROUND_STAGE_PATH = "/World/spacelab_scene"
+SPACELAB_ROBOT_STAGE_PATH = "/World/spacelab_robot"
 
 
 ########################
@@ -87,11 +85,7 @@ viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.arr
 ########################
 #     STAGE LOADING    #
 ########################
-
 # Loading the environment
-print("0000000000000000000000000000000000000000000000000000000000000000000000000000000000")
-print(PKG_PATH + BACKGROUND_USD_PATH)
-print(BACKGROUND_STAGE_PATH)
 stage.add_reference_to_stage(PKG_PATH + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PATH )
 
 # Loading the spacelab robot USD
@@ -149,10 +143,10 @@ try:
                 ("ArticulationController.inputs:usePath", True),
                 ("ArticulationController.inputs:robotPath", SPACELAB_ROBOT_STAGE_PATH),
                 ("PublishJointState.inputs:topicName", "joint_states"),
-                ("SubscribeJointState.inputs:topicName", "joint_states"),
+                ("SubscribeJointState.inputs:topicName", "joint_commands"),
                 ("PublishJointState.inputs:targetPrim", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
                 ("PublishTF.inputs:targetPrims", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
-                ("Context.inputs:domainId", [26]),
+                ("Context.inputs:domain_id", [26]),
             ],
         }
     )

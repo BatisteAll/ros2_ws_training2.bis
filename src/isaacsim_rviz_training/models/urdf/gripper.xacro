@@ -126,26 +126,5 @@
     <child link="random" />
   </joint>
   <link name="random"/>
-  
-  		<gazebo reference="link_Lgripper">
-			<!-- contact sensor -->
-			<sensor name="end_effector_sensor" type="contact">
-				<selfCollide>true</selfCollide>
-				<alwaysOn>true</alwaysOn>
-				<update_rate>50</update_rate>
-				<contact>
-					<collision>link_Lgripper_collision</collision>
-				</contact>
-                
-				<!-- gazebo plugin -->
-				<plugin name="gazebo_ros_bumper_sensor" filename="libgazebo_ros_bumper.so">
-					<ros>
-						<namespace>contact_sensor</namespace>
-						<remapping>bumper_states:=bumper_link_Lgripper</remapping>
-					</ros>
-					<frame_name>link_Lgripper</frame_name>
-				</plugin>
-			</sensor>
-		</gazebo>
 
 </robot>

@@ -1,9 +1,0 @@
-<?xml version='1.0' ?>
-<launch>
-  <!-- Example of a launch file un xml format -->
-  <!-- This xml file will launch two seperate launch files -->
-  <!-- This first launch file will be used to publish URDF file in robot_description topic -->
-  <include file="$(find-pkg-share gazebo_rviz_training)/launch/publish_urdf.launch.py"/>
-  <!-- This second launch read robot_description and spawn in gazebo running sim -->
-  <include file="$(find-pkg-share gazebo_rviz_training)/launch/spawn_robot_description.launch.py"/>
-</launch>
