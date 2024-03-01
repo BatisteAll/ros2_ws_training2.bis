@@ -251,6 +251,57 @@ Note: to get a full training on ros2 control : https://github.com/ros-controls/r
 
 
 
+## --------======== CUSTOM ROS2 CONTROL HARDWARE INTERFACE - TRAINING ========---------
+
+### --- EXPLAINATION ---
+For details on each type check `Hardware Components description https://control.ros.org/master/doc/getting_started/getting_started.html#hardware-components`_.
+
+#### Lifecycle of Hardware Components
+
+##### Definitions and Nomenclature
+Hardware interfaces use the lifecycle state machine `defined for ROS2 nodes <https://design.ros2.org/articles/node_lifecycle.html>`_.
+There is only one addition to the state machine, that is the initialization method providing hardware configuration from URDF file as argument.
+
+* Hardware Interface
+    Hardware interfaces are used by ROS control in conjunction with one of the available ROS controllers to send (hardware_interface::RobotHW::write) commands to the hardware and receive (hardware_interface::RobotHW::read) states from the robot's resources (joints, sensors, actuators).
+    Class Definition: https://control.ros.org/master/doc/api/namespacehardware__interface.html#af127ad1f7288042a450a4e783e44cf5c
+    Class Explanation: http://docs.ros.org/en/noetic/api/hardware_interface/html/c++/index.html
+
+
+* Hardware Components
+    Wrapper and abstraction of hardware interface to manage life cycle and access to methods of hardware interface from Resource Manager.
+
+* Resource Manager
+     Class responsible for the management of hardware components in the ros2_control framework.
+
+* "movement" command interfaces
+    Interfaces responsible for robot to move, i.e., influence its dynamic behavior.
+    The interfaces are defined in `hardware_interface_type_values.hpp <https://github.com/ros-controls/ros2_control/blob/master/hardware_interface/include/hardware_interface/types/hardware_interface_type_values.hpp>`_. (TODO: add link to doxygen)
+
+* "non-movement" command interfaces
+     All other interfaces that are not "movement" command interfaces
+
+
+##### Initialization
+Immediately after a plugin is loaded and the object created with the default constructor, the ``on_init`` method will be called providing hardware URDF configuration using the ``HardwareInfo`` structure.
+In this stage, all of the needed memory should be initialized and storage prepared for interfaces.
+The resource manager will export all interfaces after this and store them internally.
+
+
+##### Configuration
+Precondition is hardware interface state having id: ``lifecycle_msgs::msg::State::PRIMARY_STATE_UNCONFIGURED``.
+After configuration, the ``read`` and ``write`` methods will be called in the update loop.
+This means all internal state and commands variables have to be initialized.
+After a successful call to ``on_configure``, all state interfaces and "non-movement" command interfaces should be available to controllers.
+
+NOTE: If using "non-movement" command interfaces to parametrize the robot in the ``lifecycle_msgs::msg::State::PRIMARY_STATE_CONFIGURED`` state make sure to take care about current state in the ``write`` method of your Hardware Interface implementation.
 
 
 
+
+
+
+## --------======== TIPS Section ========---------
+
+### Setup your package structure
+https://rtw.stoglrobotics.de/master/guidelines/robot_package_structure.html
