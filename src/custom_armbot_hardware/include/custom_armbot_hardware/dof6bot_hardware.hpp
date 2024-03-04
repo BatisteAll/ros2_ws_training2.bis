@@ -18,16 +18,17 @@
 ////////////////////////
 //      INCLUDES      //
 ////////////////////////
-// include necessary dependencies
+// include tools
 #include "string"
 #include "unordered_map"
 #include "vector"
-
+// include hardware interface basic knowledge
 #include "hardware_interface/handle.hpp"
 #include "hardware_interface/hardware_info.hpp"
 #include "hardware_interface/system_interface.hpp"
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
+// include ROS2 and ROS2 lifecycle node
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp/macros.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
@@ -38,30 +39,30 @@ namespace custom_armbot_hardware
 {
 
     // Define the term "CallbackReturn" as the call to ROS2 Lifecycle NODE callback funtion
-    using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
+    // using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
     ////////////////////////
     //    CLASS SYSTEM    //
     ////////////////////////
     // --> the class extends one of the 3 interface types: system (multi dof), actuator (1 dof), sensor
     // e.g. here the robot is a multi dof system
-    class HARDWARE_INTERFACE_PUBLIC RobotSystem : public hardware_interface::SystemInterface
+    class HARDWARE_INTERFACE_PUBLIC dof6botSystem : public hardware_interface::SystemInterface
     {
         public:
 
         // Macro needed to use the custom hardware interface with shared pointers
-        RCLCPP_SHARED_PTR_DEFINITIONS(HARDWARE_INTERFACE_PUBLIC)
+        RCLCPP_SHARED_PTR_DEFINITIONS(dof6botSystem)
 
 
         // Functions defining the interaction with ROS to check that hardware params are properly set
 
         // Init function called after plugin is loaded
         // --> provides hardware URDF configuration using the `HardwareInfo` structure
-        CallbackReturn on_init(const hardware_interface::HardwareInfo & info) override;
+        hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo &) override;
 
         // Configure function, called after initialization
         // --> configure all state interfaces and "non-movement" command interfaces for them to be available to controllers
-        CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
+        hardware_interface::CallbackReturn on_configure(const rclcpp_lifecycle::State &) override;
 
         // Defines the state interfaces
         std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
@@ -69,15 +70,23 @@ namespace custom_armbot_hardware
         // Defines the command interfaces
         std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
 
+        // activate function 
+        // --> performs final preparations to start executing e.g. acquiring access to hardware
+        hardware_interface::CallbackReturn on_activate(const rclcpp_lifecycle::State &) override;
+
+        // deactivate function
+        // --> cleanup and reverse the onActivate changes
+        hardware_interface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State &) override;
+
         // Defines how to read data from hardware
-        return_type read(const rclcpp::Time & time, const rclcpp::Duration & period) override;
+        hardware_interface::return_type read(const rclcpp::Time & time, const rclcpp::Duration &) override;
 
         // Defines how to write controller command to hardware
-        return_type write(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/) override;
+        hardware_interface::return_type write(const rclcpp::Time & time, const rclcpp::Duration &) override;
 
 
-        protected:
-        /// The size of this vector is (standard_interfaces_.size() x nr_joints)
+        private:
+        // The size of this vector is (standard_interfaces_.size() x nr_joints)
         // These vectors store hardware controller commands and states information
         std::vector<double> joint_position_command_;
         std::vector<double> joint_velocities_command_;
