@@ -3,7 +3,7 @@
 <package format="3">
   <name>custom_armbot_hardware</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Custom hardware interface for 6DOF Robot</description>
   <maintainer email="allilaire.batiste@gmail.com">spacefactory5</maintainer>
   <license>BSD2</license>
 

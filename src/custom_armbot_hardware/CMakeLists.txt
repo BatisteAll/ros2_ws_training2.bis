@@ -15,7 +15,7 @@ find_package(rclcpp_lifecycle REQUIRED)
 add_library(
   ${PROJECT_NAME}
   SHARED
-  src/dof6bot_hardware.cpp
+  src/dof6bot_hardware_interface.cpp
 )
 
 target_include_directories(
@@ -35,7 +35,7 @@ ament_target_dependencies(
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE "JOINT_STATE_BROADCASTER_BUILDING_DLL")
 target_compile_definitions(${PROJECT_NAME} PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
-pluginlib_export_plugin_description_file(hardware_interface custom_armbot_hardware.xml)
+pluginlib_export_plugin_description_file(isaacsim_rviz_training dof6bot_hardware_interface.xml)
 
 
 install(
@@ -54,14 +54,20 @@ install(
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
-  set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
-  set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+ament_export_include_directories(
+  include
+)
+ament_export_libraries(
+  ${PROJECT_NAME}
+)
+ament_export_dependencies(
+  hardware_interface
+  pluginlib
+  rclcpp
+  rclcpp_lifecycle
+)
 
 ament_package()

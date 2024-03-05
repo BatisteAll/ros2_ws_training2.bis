@@ -10,10 +10,21 @@
     source ./install/setup.bash   
 
 ### --- Operation Commands ---
-#### --- 1 --- Launch Gazebo with a the "exemple.world" ---
-    ros2 launch gazebo_rviz_training start_world.launch.py  
+#### --- 1 --- Launch Robot, Controllers, Simulation & Visualization ---
+    ros2 launch isaacsim_rviz_training slrobot.launch.py
 
+    Launch step by step:
+        [1]
+        ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:="$( xacro $HOME/workspaces/ros2_ws_training2.bis/src/isaacsim_rviz_training/models/urdf/spacelab_robot.urdf.xacro )"
+        [2]
+        ros2 run controller_manager ros2_control_node robot_description:=$HOME/workspaces/ros2_ws_training2.bis/src/isaacsim_rviz_training/models/urdf/spacelab_robot.urdf --ros-args --params-file $HOME/workspaces/ros2_ws_training2.bis/src/isaacsim_rviz_training/config/slrobot_ros_params.yaml
+        [3]
+        ros2 run controller_manager spawner joint_state_broadcaster
+        [4]
+        ros2 run controller_manager spawner joint_trajectory_controller
 
+#### --- XXX --- Debug ---
+    ros2 control list_hardware_interfaces
 
 
 
@@ -253,8 +264,13 @@ Note: to get a full training on ros2 control : https://github.com/ros-controls/r
 
 ## --------======== CUSTOM ROS2 CONTROL HARDWARE INTERFACE - TRAINING ========---------
 
+### --- FULL TUTORIALs ---
+https://github.com/ros-controls/ros_control/wiki/hardware_interface
+http://docs.ros.org/en/noetic/api/hardware_interface/html/c++/index.html
+
+
 ### --- EXPLAINATION ---
-For details on each type check `Hardware Components description https://control.ros.org/master/doc/getting_started/getting_started.html#hardware-components`_.
+For details on each hardware interface type check `Hardware Components description https://control.ros.org/master/doc/getting_started/getting_started.html#hardware-components`.
 
 #### Lifecycle of Hardware Components
 
@@ -276,7 +292,7 @@ There is only one addition to the state machine, that is the initialization meth
 
 * "movement" command interfaces
     Interfaces responsible for robot to move, i.e., influence its dynamic behavior.
-    The interfaces are defined in `hardware_interface_type_values.hpp <https://github.com/ros-controls/ros2_control/blob/master/hardware_interface/include/hardware_interface/types/hardware_interface_type_values.hpp>`_. (TODO: add link to doxygen)
+    The interfaces are defined in `hardware_interface_type_values.hpp <https://github.com/ros-controls/ros2_control/blob/master/hardware_interface/include/hardware_interface/types/hardware_interface_type_values.hpp>`.
 
 * "non-movement" command interfaces
      All other interfaces that are not "movement" command interfaces
@@ -297,8 +313,30 @@ After a successful call to ``on_configure``, all state interfaces and "non-movem
 NOTE: If using "non-movement" command interfaces to parametrize the robot in the ``lifecycle_msgs::msg::State::PRIMARY_STATE_CONFIGURED`` state make sure to take care about current state in the ``write`` method of your Hardware Interface implementation.
 
 
+### --- DEPENDENCIES ---
+
+#### package.xml
+Package.xml is responsible for:
+* Ordering of, the configure step (cmake) sequence for catkin-packages in catkin workspaces
+* Define packaging dependencies for bloom (what dependencies to export when creating debian pkgs)
+* Define system (non-catkin-pkgs) build dependencies for rosdep
+* Document build or install or runtime dependency for roswiki / graph tool (rqt_graph) 
+
+#### CMakeLists.txt
+In general, CMakeLists.txt is responsible for preparing and executing the build process.
+The name of the system library and the name to be used to find the package are often not the same, that's a reason why we have to specify that dependency both in the Package.xml and the CMakeLists.txt. 
+See the following links to have information on how to export xml files (pluginlib_export_plugin_description_file):
+https://docs.ros.org/en/foxy/How-To-Guides/Ament-CMake-Documentation.html
+https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Pluginlib.html
 
 
+### --- SCRIPT ---
+
+#### dof6bot_hardware.cpp
+* METHOD on_init():
+    * The on_init method is called once during ros2_control initialization if the RobotSystem was specified in the URDF.
+    * In this method, communication between the robot hardware needs to be setup and memory dynamic should be allocated. 
+    * For simulated robots, explicit communication will not be established. Instead, vectors will be initialized that represent the state all the hardware, e.g. a vector of doubles describing joint angles, etc.
 
 
 ## --------======== TIPS Section ========---------

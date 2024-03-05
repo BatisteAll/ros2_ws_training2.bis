@@ -1,9 +1,0 @@
-<library path="custom_armbot_hardware">
-    <class name="custom_armbot_hardware/dof6botSystem" 
-        type="custom_armbot_hardware::dof6botSystem"
-        base_class_type="hardware_interface::SystemInterface">
-    <description>
-      Implementing custom hardware interface for 6DOF robot
-    </description>
-  </class>
-</library>

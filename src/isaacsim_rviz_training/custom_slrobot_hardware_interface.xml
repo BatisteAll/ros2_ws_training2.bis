@@ -1,0 +1,9 @@
+<library path="isaacsim_rviz_training">
+  <class name="isaacsim_rviz_training/DOF6BOTSystem"
+         type="isaacsim_rviz_training::DOF6BOTSystem"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Custom Robot hardware plugin for 6 dof robot.
+    </description>
+  </class>
+</library>
