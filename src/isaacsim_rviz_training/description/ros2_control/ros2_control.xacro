@@ -4,7 +4,7 @@
        <!-- ROBOT PLUGIN --> 
 	<ros2_control name="SpacelabRobotPositionningSystem" type="system">
 		<hardware>
-		   <plugin>custom_armbot_hardware/DOF6BOTSystem</plugin>
+		   <plugin>isaacsim_rviz_training/DOF6BOTSystem</plugin>
 		   <!-- <plugin>hardware_interface/JointCommandInterface</plugin> -->
 	    </hardware>
 		<joint name="joint_1_2">
@@ -20,7 +20,6 @@
 			<!-- Definition of the state interfaces-->
 			<state_interface name="position"/>
 			<state_interface name="velocity"/>
-			<state_interface name="effort"/>
 		</joint>
 		<joint name="joint_2_3">
 			<command_interface name="position">
@@ -33,7 +32,6 @@
 			</command_interface>
 			<state_interface name="position"/>
 			<state_interface name="velocity"/>
-			<state_interface name="effort"/>
 		</joint>
 		<joint name="joint_3_4">
 			<command_interface name="position">
@@ -46,7 +44,6 @@
 			</command_interface>
 			<state_interface name="position"/>
 			<state_interface name="velocity"/>
-			<state_interface name="effort"/>
 		</joint>
 		<joint name="joint_4_5">
 			<command_interface name="position">
@@ -59,7 +56,6 @@
 			</command_interface>
 			<state_interface name="position"/>
 			<state_interface name="velocity"/>
-			<state_interface name="effort"/>
 		</joint>
 		<joint name="joint_5_6">
 			<command_interface name="position">
@@ -72,7 +68,6 @@
 			</command_interface>
 			<state_interface name="position"/>
 			<state_interface name="velocity"/>
-			<state_interface name="effort"/>
 		</joint>
 		<joint name="joint_6_7">
 			<command_interface name="position">
@@ -85,7 +80,6 @@
 			</command_interface>
 			<state_interface name="position"/>
 			<state_interface name="velocity"/>
-			<state_interface name="effort"/>
 		</joint>
 		<joint name="joint_EE_Lgripper">
 			<command_interface name="position">
@@ -94,7 +88,6 @@
 			</command_interface>
 			<state_interface name="position"/>
 			<state_interface name="velocity"/>
-			<state_interface name="effort"/>
 		</joint> 
 		<joint name="joint_EE_Rgripper">
 				<param name="mimic">joint_EE_Lgripper</param>
@@ -102,7 +95,6 @@
 			<command_interface name="position"/>
 			<state_interface name="position"/>
 			<state_interface name="velocity"/>
-			<state_interface name="effort"/>
 		</joint>
 
 		<!-- Force & Torque Sensor definition -->

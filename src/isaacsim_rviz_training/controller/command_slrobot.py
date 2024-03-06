@@ -1,5 +1,25 @@
 #! /usr/bin/env python3.10
 
+"""
+##################  Spacelab Robot - Send Command Node   ##################
+
+Description
+----------
+Send a command (target pose) to the simulated spacelab robot:
+        
+Parameters
+----------
+goal_prim : arg string
+    define the targeted prim to be controlled
+    {'robot', 'gripper'}
+target_pose : arg string
+    define the pose to which the targeted prim needs to be moved
+    each name corresponds to a pose in a small database
+    {'rest', 'pick_far', 'pick', 'place_far', 'place', 'init', 'user_defined'}
+goal_exec_time : arg string
+    time in second to go from the current location to the targeted pose
+
+"""
 
 ########################
 #        IMPORTS       #
@@ -22,7 +42,7 @@ from isaacsim_rviz_training.controller.helper_functions.load_ros_parameters impo
 #   CONST DEFINITION   #
 ########################
 NODE_NAME = "command_slrobot"
-ROBOT_NAME = "Space Lab Robot"
+ROBOT_NAME = "Spacelab Robot"
 
 ########################
 #    VAR DEFINITION    #
@@ -264,15 +284,22 @@ def main(
     #    PARSE ARGUMENTS   #
     ########################
     # Split and store command line argument
-    pose_joint_angles = sys.argv[1].split(',')
-    goal_exec_duration = sys.argv[2]
+    goal_prim = sys.argv[1]
+    pose_joint_angles = sys.argv[2].split(',')
+    goal_exec_duration = sys.argv[3]
 
 
     ########################
     #       SEND GOAL      #
     ########################
     # send command to the robot and get the feedback
-    future = slrobot_client.send_goal_robot(pose_joint_angles, goal_exec_duration)
+    if(goal_prim == 'robot'):
+        future = slrobot_client.send_goal_robot(pose_joint_angles, goal_exec_duration)
+    elif(goal_prim == 'gripper'):
+        future = slrobot_client.send_goal_gripper(pose_joint_angles, goal_exec_duration)
+    else:
+        print('[ERROR]: The prim needs to be set either to "robot" or to "gripper" to control on of these two systems.')
+        exit
 
     # Execute the node until its goal is achieved
     # spin_until_future_complete: tool that executes a command from a node until the future condition is verified

@@ -1,3 +1,26 @@
+"""
+##################  Spacelab Robot Launch   ##################
+
+Description
+----------
+Launch the isaac sim simulation of the spacelab robot:
+    - parse urdf
+    - publish urdf: instentiate robot state publisher
+    - instentiate controller manager
+    - instentiate the controllers
+        -- joint_state_broadcaster
+        -- joint_trajectory_controller
+    - run ISAAC SIM node
+    - run RVIZ node
+
+        
+Parameters
+----------
+NONE
+
+"""
+
+
 ########################
 #        IMPORTS       #
 ########################
@@ -6,7 +29,7 @@ import yaml
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, TimerAction, RegisterEventHandler
+from launch.actions import TimerAction, RegisterEventHandler
 from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
 from launch.event_handlers import OnProcessStart, OnProcessExit
@@ -51,7 +74,7 @@ def generate_launch_description():
         executable="robot_state_publisher",
         output="both",
         parameters=[robot_description],
-        namespace=ROBOT_NAMESPACE
+        # namespace=ROBOT_NAMESPACE
     )
 
 
@@ -64,8 +87,7 @@ def generate_launch_description():
     controller_manager = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[{'robot_description': robot_description},
-                    controller_params_file],
+        parameters=[robot_description,controller_params_file],
         output="both",
         # remappings=[('robot_description', ('/',ROBOT_NAMESPACE,'/robot_description'))]
     )
@@ -99,7 +121,7 @@ def generate_launch_description():
         package="controller_manager",
         executable="spawner",
         arguments=["joint_trajectory_controller", "--controller-manager", "/controller_manager"],
-        namespace=ROBOT_NAMESPACE
+        # namespace=ROBOT_NAMESPACE
     )
 
     delayed_joint_trajectory_controller = RegisterEventHandler(
@@ -149,12 +171,10 @@ def generate_launch_description():
     ########################
     nodes_to_start = [
         robot_state_publisher_node,
-        # delayed_controller_manager,
-        controller_manager,
-        joint_state_broadcaster_controller,
-        # delayed_joint_state_broadcaster_controller,
-        #delayed_joint_trajectory_controller,
-        #delayed_isaacsim_node,
+        delayed_controller_manager,
+        delayed_joint_state_broadcaster_controller,
+        delayed_joint_trajectory_controller,
+        delayed_isaacsim_node,
         # rviz_node,
     ]
 

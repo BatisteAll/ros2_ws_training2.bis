@@ -55,6 +55,17 @@ theta_camrot = 0.0
 # enable ROS2 bridge extension
 extensions.enable_extension("omni.isaac.ros2_bridge")
 
+# Check/set ROS domain ID
+try:
+    ros_domain_id = int(os.environ["ROS_DOMAIN_ID"])
+    print("Using ROS_DOMAIN_ID: ", ros_domain_id)
+except ValueError:
+    print("Invalid ROS_DOMAIN_ID integer value. Setting value to 0")
+    ros_domain_id = 0
+except KeyError:
+    print("ROS_DOMAIN_ID environment variable is not set. Setting value to 0")
+    ros_domain_id = 0
+
 
 ########################
 #       SENSORS        #
@@ -146,7 +157,7 @@ try:
                 ("SubscribeJointState.inputs:topicName", "joint_commands"),
                 ("PublishJointState.inputs:targetPrim", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
                 ("PublishTF.inputs:targetPrims", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
-                ("Context.inputs:domain_id", [26]),
+                ("Context.inputs:domain_id", ros_domain_id),
             ],
         }
     )

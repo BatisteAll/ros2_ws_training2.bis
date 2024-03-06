@@ -9,5 +9,5 @@
     <!-- This file contain the camera description and associated plugin -->
     <xacro:include filename="camera.xacro" />
     <!-- This file contain the ros2 control parameters of the robot -->
-    <xacro:include filename="$(find isaacsim_rviz_training)/ros2_control/ros2_control.xacro" />
+    <xacro:include filename="$(find isaacsim_rviz_training)/description/ros2_control/ros2_control.xacro" />
 </robot>

@@ -41,11 +41,6 @@ foreach(Dependency IN ITEMS ${CONTROLLER_INCLUDE_DEPENDS})
 endforeach()
 
 
-ament_target_dependencies(
-  send_trajectory PUBLIC
-  ${REF_GEN_INCLUDE_DEPENDS}
-)
-
 
 add_library(
   isaacsim_rviz_training
@@ -59,10 +54,12 @@ target_include_directories(isaacsim_rviz_training PUBLIC
 $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/hardware/include>
 $<INSTALL_INTERFACE:include/isaacsim_rviz_training>
 )
+
 ament_target_dependencies(
   isaacsim_rviz_training PUBLIC
   ${HW_IF_INCLUDE_DEPENDS}
   ${CONTROLLER_INCLUDE_DEPENDS}
+  ${REF_GEN_INCLUDE_DEPENDS}
 )
 
 # Causes the visibility macros to use dllexport rather than dllimport,
@@ -76,8 +73,7 @@ pluginlib_export_plugin_description_file(hardware_interface isaacsim_rviz_traini
 # INSTALL
 install(
   DIRECTORY
-    bringup/launch
-    bringup/config
+    bringup
     controller
     description
     hardware
@@ -94,23 +90,6 @@ install(
     lib/${PROJECT_NAME}
 )
 
-#INSTALL Specific to the Hardware Interface
-install(
-  DIRECTORY hardware/include/
-  DESTINATION include/isaacsim_rviz_training
-)
-install(
-  DIRECTORY description/launch description/ros2_control description/urdf
-  DESTINATION share/isaacsim_rviz_training
-)
-install(
-  DIRECTORY bringup/launch bringup/config
-  DESTINATION share/isaacsim_rviz_training
-)
-install(
-    TARGETS send_trajectory
-    RUNTIME DESTINATION lib/isaacsim_rviz_training
-)
 
 install(TARGETS isaacsim_rviz_training
   EXPORT isaacsim_rviz_training
