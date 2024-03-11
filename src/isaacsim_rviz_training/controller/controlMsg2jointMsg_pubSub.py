@@ -25,6 +25,8 @@ from rclpy.node import Node
 # Publisher / Subscriber messages types
 from sensor_msgs.msg import JointState
 from control_msgs.msg import JointTrajectoryControllerState
+from trajectory_msgs.msg import JointTrajectoryPoint
+import time
 
 ########################
 #   CONST DEFINITION   #
@@ -38,7 +40,7 @@ ROBOT_NAME = "Spacelab Robot"
 class controlMsg2jointMsg_pubSub(Node):
 
     def __init__(self):
-        super().__init__(NODE_NAME)
+        super().__init__('pubSubConverter')
 
         self.get_logger().info('Initialization of controlMsg2jointMsg_pubSub node.')
 
@@ -78,18 +80,33 @@ class controlMsg2jointMsg_pubSub(Node):
         """
         
         # Recover the waypoint from JointTrajectoryController messages
-        pose_joint_angles = listened_msg.reference.positions
-        print(type(pose_joint_angles))
-        pose_joint_velocities = listened_msg.reference.velocities
-        pose_joint_accelerations = listened_msg.reference.accelerations
-        pose_joint_effort = listened_msg.reference.effort
-        self.get_logger().info("------------------------------------------------------------------------------------")
-        self.get_logger().info(listened_msg)
+        print(type(listened_msg))
+        print(type(listened_msg.reference))
+        print(type(listened_msg.reference.positions))
+        reference = listened_msg.reference
+        pose_joint_angles = reference.positions[:]
+        pose_joint_velocities = reference.velocities[:]
+        pose_joint_effort = reference.effort[:]
+        joint_names = listened_msg.joint_names
+        # reference=trajectory_msgs.msg.JointTrajectoryPoint(
+        #     positions=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.7040477e-317], 
+        #     velocities=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+        #     accelerations=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+        #     effort=[], 
+        #     time_from_start=builtin_interfaces.msg.Duration(sec=0, nanosec=0))
         
+        # self.get_logger().info(listened_msg)
+
         published_msg = JointState()
+        published_msg._name = joint_names
+        published_msg._position = pose_joint_angles
+        published_msg._velocity = pose_joint_velocities
+        published_msg._effort = pose_joint_effort
+
         self.publisher_.publish(published_msg)
-
-
+        # https://robotics.stackexchange.com/questions/101565/dynamically-create-subcription-callback-functions-python
+        # https://stackoverflow.com/questions/70511324/typeerror-missing-one-required-positional-argument-event
+        # setattr(self, 'listener2writer_callback', self.listener2writer_callback.__get__(self, self.__class__))
     
 def main(args=None):
     rclpy.init(args=args)
