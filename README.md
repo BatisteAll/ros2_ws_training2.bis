@@ -175,8 +175,12 @@ Note: to get a full training on ros2 control : https://github.com/ros-controls/r
 
 ### --- SCRIPT ---
 
-#### command_gripper.py
+#### command_slrobot.py
 * create an action client, from rclpy library, that will communicate with FollowJointTrajectory server from control_msgs.action library
+* the output topic on wich the interpolated trajectory (set of waypoints) is published is:
+    * TOPIC: /joint_trajectory_controller/controller_state 
+    * MSG TYPE: control_msgs/msg/JointTrajectoryControllerState
+    * ECHO: ros2 topic echo /joint_trajectory_controller/controller_state control_msgs/msg/JointTrajectoryControllerState --field reference
 
 
 ### --- rviz ---

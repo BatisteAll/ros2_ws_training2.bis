@@ -29,6 +29,8 @@ set(CONTROLLER_INCLUDE_DEPENDS
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclpy REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
 # Hardware interface related dependencies
 foreach(Dependency IN ITEMS ${HW_IF_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
@@ -86,6 +88,7 @@ install(
     controller/command_slrobot.py
     isaacsim/isaac_sim_node.py
     controller/helper_functions/load_ros_parameters.py
+    controller/controlMsg2jointMsg_pubSub.py
   DESTINATION 
     lib/${PROJECT_NAME}
 )

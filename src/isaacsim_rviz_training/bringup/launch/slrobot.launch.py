@@ -138,6 +138,27 @@ def generate_launch_description():
     #         https://control.ros.org/master/doc/ros2_controllers/gripper_controllers/doc/userdoc.html
 
 
+
+    ########################
+    # PUBSUB MSG CONVERTER #
+    ########################
+    # Instentiate the msg converter from JointTrajectory to JointState
+    controlMsg2jointMsg_node = Node(
+        package="isaacsim_rviz_training",
+        executable="controlMsg2jointMsg_pubSub.py",
+        output="both", # {log, console, both} --> "both" is to see the output of the node in the log & the console
+    )
+
+    delayed_controlMsg2jointMsg_node = RegisterEventHandler(
+        event_handler=OnProcessStart(
+            target_action=controller_manager,
+            on_start=[controlMsg2jointMsg_node],
+        )
+    )
+
+
+
+
     ########################
     # ISAAC SIMULATION APP #
     ########################
@@ -175,7 +196,8 @@ def generate_launch_description():
         delayed_controller_manager,
         delayed_joint_state_broadcaster_controller,
         delayed_joint_trajectory_controller,
-        delayed_isaacsim_node,
+        delayed_controlMsg2jointMsg_node,
+        # delayed_isaacsim_node,
         # rviz_node,
     ]
 

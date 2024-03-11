@@ -154,7 +154,7 @@ try:
                 ("ArticulationController.inputs:usePath", True),
                 ("ArticulationController.inputs:robotPath", SPACELAB_ROBOT_STAGE_PATH),
                 ("PublishJointState.inputs:topicName", "joint_states"),
-                ("SubscribeJointState.inputs:topicName", "/joint_trajectory_controller/state"),
+                ("SubscribeJointState.inputs:topicName", "/joint_commands"),
                 ("PublishJointState.inputs:targetPrim", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
                 ("PublishTF.inputs:targetPrims", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
                 ("Context.inputs:domain_id", ros_domain_id),
