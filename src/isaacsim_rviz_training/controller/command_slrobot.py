@@ -34,15 +34,19 @@ from rclpy.node import Node
 from trajectory_msgs.msg import JointTrajectoryPoint
 
 # Import Helper Functions form this current package
-from isaacsim_rviz_training.controller.helper_functions.load_ros_parameters import get_ros_parameters
-
+# from isaacsim_rviz_training.controller.helper_functions.load_ros_parameters import get_ros_parameters
+import os
+from ament_index_python.packages import get_package_share_directory
+import yaml
 
 
 ########################
 #   CONST DEFINITION   #
 ########################
+PKG_NAME = "isaacsim_rviz_training"
 NODE_NAME = "command_slrobot"
 ROBOT_NAME = "Spacelab Robot"
+PARAM_FILE_NAME = 'slrobot_ros_params.yaml'
 
 ########################
 #    VAR DEFINITION    #
@@ -50,7 +54,8 @@ ROBOT_NAME = "Spacelab Robot"
 
 
 
-#------------------------------------------------------
+
+#------------------------------------------load_yaml_file------------
 class command_slrobot(Node):
     """Class to simulate Space Lab Robot in Isaac Sim"""
 
@@ -66,24 +71,39 @@ class command_slrobot(Node):
         #########################
         # SLROBOT ACTION CLIENT #
         #########################
+        # Instentiate the action client that will request the server the trajectory to a target position
+        # This is done through the "topic?" '/namespace_if_existing/joint_trajectory_controller/follow_joint_trajectory'
         self._action_client = ActionClient(self,
                                            FollowJointTrajectory,
-                                           'sl_robot/follow_joint_trajectory')
+                                           '/joint_trajectory_controller/follow_joint_trajectory')
 
         #########################
         # GRIPPER ACTION CLIENT #
         #########################
         self._gripper_action_client = ActionClient(self,
                                                     FollowJointTrajectory,
-                                                    'sl_robot_gripper/follow_joint_trajectory')
+                                                    '/joint_trajectory_controller/follow_joint_trajectory')
         
         ########################
         #   ROS2 PARAMETERS    #
         ########################
-        # Call to the helper function to get the list of parameters
-        self.ros_parameters = get_ros_parameters(NODE_NAME)
+        # Get the parameters from the yaml file
+        config_file = os.path.join(
+            get_package_share_directory(PKG_NAME),
+            'bringup',
+            'config',
+            PARAM_FILE_NAME
+        )
+        def load_yaml_file(filename) -> dict:
+            """Load yaml file with the Parameters"""
+            with open(filename, 'r', encoding='UTF-8') as file:
+                data = yaml.safe_load(file)
+            return data      
+        config = load_yaml_file(config_file)
+        self.ros_parameters = config[NODE_NAME]["ros__parameters"]
         self.robot_name = ROBOT_NAME
     #------------------------------------------------------       
+
 
 
 
@@ -113,26 +133,35 @@ class command_slrobot(Node):
             self.goal_prim = self.robot_name
             # Get the list of actuated joints from the param list
             joint_names = self.ros_parameters['actuated_robot_joints']
+            self.get_logger().info(f"Requested joints to be actuated: {joint_names}")
 
             # Define the goal of the requested "action" as a "FollowJointTrajectory.Goal"
             goal = FollowJointTrajectory.Goal()
-            goal.trajectory.joint_names = joint_names
+            # goal.trajectory.joint_names = joint_names
+            goal.trajectory.joint_names = ['joint_1_2', 'joint_2_3', 'joint_3_4', 'joint_4_5', 'joint_5_6', 'joint_6_7', 'joint_EE_Lgripper']
             duration = Duration(sec=time_in_sec)
             goal.trajectory.points.append(
-                JointTrajectoryPoint(positions=target_pose, #[float(angle[0]), float(angle[1]), float(angle[2]), float(angle[3]), float(angle[4]), float(angle[5])]
-                                     velocities=[0.0]*6,
-                                     accelerations=[0.0]*6,
+                JointTrajectoryPoint(positions=[1.5053, -1.2618, 1.8317, -2.1601, -1.5708, -0.0654, 0.0],
+                                     velocities=[0.0]*7,
+                                     accelerations=[0.0]*7,
                                      time_from_start=duration))
             
             # Contact the server to send the requested goal (timeout if no server is found) (wait_for_server() is a method of the ActionClient() class)
-            self._action_client.wait_for_server(timeout_sec=10.0)
+            server_reached = self._action_client.wait_for_server(timeout_sec=10.0)
+            if not server_reached:
+                self.get_logger().error(f'Unable to connect to {self.goal_prim} action server. Timeout exceeded.')
+                sys.exit()
 
             # Send the goal to the server
             send_goal_future =self._action_client.send_goal_async(goal,feedback_callback=self.feedback_callback)
+            # Add a callback to the requested future to be executed/sent when the task is done
             send_goal_future.add_done_callback(self.goal_response_callback)
-            self.get_logger().info(f"[{self.goal_prim}] Joint goal [{target_pose}] sent to the robot.")
+            # Display infos to the CLI/joint_trajectory_controller/follow_joint_trajectory
+            self.get_logger().info(f"[{self.goal_prim}] Joint goal {target_pose} sent to the robot, expecting a [{time_in_sec}s] execution duration as expected.")
+
+            return send_goal_future
         else:
-            self.get_logger().error("Please, specify the time in seconds")
+            self.get_logger().error("Please, specify the time in seconds when sending a goal to a prim in node command_slrobot")
     #------------------------------------------------------
 
 
@@ -154,29 +183,34 @@ class command_slrobot(Node):
             List of joint positions.
 
         """
-        self.goal_prim = 'GRIPPER'
+        if time_in_sec is not None:
+            self.goal_prim = 'GRIPPER'
 
-        # Get the list of actuated joints from the param list
-        gripper_joint_names = self.ros_parameters['actuated_robot_joints']
+            # Get the list of actuated joints from the param list
+            gripper_joint_names = self.ros_parameters['actuated_robot_joints']
 
-        # Define the goal of the requested "action" as a "FollowJointTrajectory.Goal"
-        goal = FollowJointTrajectory.Goal()
-        goal.trajectory.joint_names = gripper_joint_names
-        duration = Duration(sec=time_in_sec)
-        n_joints = len(gripper_joint_names)
-        goal.trajectory.points.append(
-            JointTrajectoryPoint(positions=target_pose,
-                                 velocities=[0.0]*n_joints,
-                                 accelerations=[0.0]*n_joints,
-                                 time_from_start=duration))
-        
-        # Contact the server to send the requested goal (timeout if no server is found) (wait_for_server() is a method of the ActionClient() class)
-        self._gripper_action_client.wait_for_server(timeout_sec=10.0)
+            # Define the goal of the requested "action" as a "FollowJointTrajectory.Goal"
+            goal = FollowJointTrajectory.Goal()
+            goal.trajectory.joint_names = gripper_joint_names
+            duration = Duration(sec=time_in_sec)
+            n_joints = len(gripper_joint_names)
+            goal.trajectory.points.append(
+                JointTrajectoryPoint(positions=target_pose,
+                                    velocities=[0.0]*n_joints,
+                                    accelerations=[0.0]*n_joints,
+                                    time_from_start=duration))
+            
+            # Contact the server to send the requested goal (timeout if no server is found) (wait_for_server() is a method of the ActionClient() class)
+            self._gripper_action_client.wait_for_server(timeout_sec=10.0)
 
-        # Send the goal to the server
-        send_goal_future =self._gripper_action_client.send_goal_async(goal,feedback_callback=self.feedback_callback)
-        send_goal_future.add_done_callback(self.goal_response_callback)
-        self.get_logger().info(f"[{self.goal_prim}] Joint goal [{target_pose}] sent to the robot.")
+            # Send the goal to the server
+            send_goal_future =self._gripper_action_client.send_goal_async(goal,feedback_callback=self.feedback_callback)
+            send_goal_future.add_done_callback(self.goal_response_callback)
+            self.get_logger().info(f"[{self.goal_prim}] Joint goal [{target_pose}] sent to the robot.")
+
+            return send_goal_future
+        else:
+            self.get_logger().error("Please, specify the time in seconds when sending a goal to a prim in node command_slrobot")
     #------------------------------------------------------
 
 
@@ -193,6 +227,7 @@ class command_slrobot(Node):
             Feedback message from the action server
 
         """
+        self.get_logger().info("===========METHOD: feedback_callback")
         feedback = feedback_msg.feedback
         info = self.get_logger().info
         des_positions = np.round(feedback.desired.positions, 5)
@@ -220,6 +255,7 @@ class command_slrobot(Node):
             Future object with the response from the action server
 
         """
+        self.get_logger().info("===========METHOD: goal_response_callback")
         goal_handle = future.result()
         if not goal_handle.accepted:
             self.get_logger().warn('Goal rejected :(')
@@ -242,6 +278,7 @@ class command_slrobot(Node):
             Future object with the result from the action server
 
         """
+        self.get_logger().info("===========METHOD: get_result_callback")
         result = future.result().result
         self.get_logger().info(f'[Feedback] [{self.goal_prim}] Result: {result.error_string}')
     #------------------------------------------------------
@@ -250,9 +287,9 @@ class command_slrobot(Node):
 
 #------------------------------------------------------
 def main(
-        self,
-        target_pose: list,
-        goal_duration_in_sec: int = 3,
+        # goal_prim: str,
+        # pose_joint_angles: list,
+        # goal_exec_duration: int = 3,
         args=None
 ):
     """
@@ -260,15 +297,38 @@ def main(
 
     Parameters
     ----------
-    time_in_sec : float
-        Time in seconds to complete the action.
-    position : list
-        List of joint positions.
+    goal_prim : str
+        Prim to be actuated. (sys.argv[1])
+    pose_joint_angles : list
+        List of joint positions. (sys.argv[2])
+    goal_exec_duration : int
+        Time in seconds to complete the action. (sys.argv[3])
 
     """
 
     # Instentiate ROS
     rclpy.init(args=args)
+
+    ########################
+    #    PARSE ARGUMENTS   #
+    ########################
+    # Split and store command line argument
+    goal_prim = sys.argv[1]
+    pose_joint_angles_str = sys.argv[2].split(',')
+
+    def convert_strings_to_floats(input_array):
+        output_array = []
+        for element in input_array:
+            converted_float = float(element)
+            output_array.append(converted_float)
+        return output_array
+    pose_joint_angles = convert_strings_to_floats(pose_joint_angles_str)
+    goal_exec_duration = int(sys.argv[3])
+    print('==================================')
+    print('Initialization of the node command_slrobot')
+    print(goal_prim,pose_joint_angles,goal_exec_duration)
+    print('==================================')
+
 
     ########################
     #   INSTENTIATE NODE   #
@@ -279,14 +339,6 @@ def main(
     # the spin_once tool executes one action and stop at the first callback of either timeout or the end of the node execution
     rclpy.spin_once(slrobot_client, timeout_sec=0.5)
 
-
-    ########################
-    #    PARSE ARGUMENTS   #
-    ########################
-    # Split and store command line argument
-    goal_prim = sys.argv[1]
-    pose_joint_angles = sys.argv[2].split(',')
-    goal_exec_duration = sys.argv[3]
 
 
     ########################
@@ -304,7 +356,7 @@ def main(
     # Execute the node until its goal is achieved
     # spin_until_future_complete: tool that executes a command from a node until the future condition is verified
     rclpy.spin_until_future_complete(slrobot_client, future)
-
+    print("The goal is reached, shutting down the action node.")
 
     ########################
     #     DESTROY NODE     #

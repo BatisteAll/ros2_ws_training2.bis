@@ -13,7 +13,7 @@ def load_yaml_file(filename) -> dict:
 
 
 #------------------------------------------------------
-def get_ros_parameters(node_name):
+def get_ros_parameters(pkg_name, node_name, param_file_name):
     """Get the ROS2 parameters from the yaml file
 
     Returns
@@ -26,9 +26,9 @@ def get_ros_parameters(node_name):
     """
     # Get the parameters from the yaml file
     config_file = os.path.join(
-        get_package_share_directory("ur5_isaac_simulation"),
+        get_package_share_directory(pkg_name),
         'config',
-        'params.yaml'
+        param_file_name
     )
     config = load_yaml_file(config_file)
     ros_parameters = config[node_name]["ros__parameters"]

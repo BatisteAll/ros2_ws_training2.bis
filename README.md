@@ -24,6 +24,9 @@
         [4]
         ros2 run controller_manager spawner joint_trajectory_controller
 
+    ros2 topic pub /joint_states sensor_msgs/msg/JointState "{name: ['joint_1_2', 'joint_2_3'], position: [0.5, 0.4], velocity: [1.0, 1.2], effort: [0.0, 0.0]}"
+
+
 #### --- XXX --- Debug ---
     ros2 control list_hardware_interfaces
 
@@ -150,6 +153,10 @@ Note: to get a full training on ros2 control : https://github.com/ros-controls/r
         * the commands are defined by the command interfaces in the command file (here position)
         * Controller for executing joint-space trajectories on a group of joints. The controller interpolates in time between the points so that their distance can be arbitrary. Even trajectories with only one point are accepted. Trajectories are specified as a set of waypoints to be reached at specific time instants, which the controller attempts to execute as well as the mechanism allows. Waypoints consist of positions, and optionally velocities and accelerations.
         * https://control.ros.org/master/doc/ros2_controllers/joint_trajectory_controller/doc/userdoc.html
+            * ~/joint_trajectory (input topic) [trajectory_msgs::msg::JointTrajectory] : Topic for commanding the controller.
+            * ~/state (output topic) [control_msgs::msg::JointTrajectoryControllerState] : Topic publishing internal states.
+            * ~/follow_joint_trajectory (action server) [control_msgs::action::FollowJointTrajectory] : Action server for commanding the controller.
+
 
 
 ### --- LAUNCH ---
@@ -157,6 +164,13 @@ Note: to get a full training on ros2 control : https://github.com/ros-controls/r
 #### sl_robot.launch.py
 * TIPS: the parameters section of the controller manager initialization needs to be instentiated as follows, else it won't init properly
     *   WRONG `parameters=[{'robot_description': robot_description},controller_params_file]`
+    * CORRECT `parameters=[robot_description,controller_params_file]`
+
+#### command_slrobot.launch.py
+* TIPS: variables of type DeclareLaunchArgument and LaunchConfiguration can't be used as a python variable, 
+        they can simply be passed, as ROS2 first build the context and then executes the nodes. With the 
+        OpaqueFunction() one can delay the execution of code, so that the context exists and the value can be retrieved. 
+    *   WRONG `LaunchConfiguration('goal_prim') == 'gripper'`
     * CORRECT `parameters=[robot_description,controller_params_file]`
 
 ### --- SCRIPT ---

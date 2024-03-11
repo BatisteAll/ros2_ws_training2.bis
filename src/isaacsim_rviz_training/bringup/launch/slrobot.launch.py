@@ -121,6 +121,7 @@ def generate_launch_description():
         package="controller_manager",
         executable="spawner",
         arguments=["joint_trajectory_controller", "--controller-manager", "/controller_manager"],
+        # remappings=[('/joint_trajectory_controller/state', '/blablabla'),('/state', '/bliblibli')]
         # namespace=ROBOT_NAMESPACE
     )
 
