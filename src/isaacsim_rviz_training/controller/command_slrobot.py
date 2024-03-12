@@ -18,6 +18,9 @@ target_pose : arg string
     {'rest', 'pick_far', 'pick', 'place_far', 'place', 'init', 'user_defined'}
 goal_exec_time : arg string
     time in second to go from the current location to the targeted pose
+full_sequence_flag : boolean
+    full pick/place sequence execution flag
+    {true, false}
 
 """
 
@@ -27,6 +30,7 @@ goal_exec_time : arg string
 import numpy as np
 import rclpy
 import sys
+import time
 from builtin_interfaces.msg import Duration
 from control_msgs.action import FollowJointTrajectory
 from rclpy.action import ActionClient
@@ -55,7 +59,7 @@ PARAM_FILE_NAME = 'slrobot_ros_params.yaml'
 
 
 
-#------------------------------------------load_yaml_file------------
+#------------------------------------------------------
 class command_slrobot(Node):
     """Class to simulate Space Lab Robot in Isaac Sim"""
 
@@ -115,7 +119,7 @@ class command_slrobot(Node):
         time_in_sec: int = 3
     ):
         """
-        Send trajectory to the UR5 robot in Isaac Sim.
+        Send trajectory to the robot in Isaac Sim.
 
         Parameters
         ----------
@@ -137,13 +141,12 @@ class command_slrobot(Node):
 
             # Define the goal of the requested "action" as a "FollowJointTrajectory.Goal"
             goal = FollowJointTrajectory.Goal()
-            # goal.trajectory.joint_names = joint_names
-            goal.trajectory.joint_names = ['joint_1_2', 'joint_2_3', 'joint_3_4', 'joint_4_5', 'joint_5_6', 'joint_6_7', 'joint_EE_Lgripper']
+            goal.trajectory.joint_names = joint_names
             duration = Duration(sec=time_in_sec)
             goal.trajectory.points.append(
-                JointTrajectoryPoint(positions=[1.5053, -1.2618, 1.8317, -2.1601, -1.5708, -0.0654, 0.0],
-                                     velocities=[0.0]*7,
-                                     accelerations=[0.0]*7,
+                JointTrajectoryPoint(positions=target_pose,
+                                     velocities=[0.0]*6,
+                                     accelerations=[0.0]*6,
                                      time_from_start=duration))
             
             # Contact the server to send the requested goal (timeout if no server is found) (wait_for_server() is a method of the ActionClient() class)
@@ -157,7 +160,7 @@ class command_slrobot(Node):
             # Add a callback to the requested future to be executed/sent when the task is done
             send_goal_future.add_done_callback(self.goal_response_callback)
             # Display infos to the CLI/joint_trajectory_controller/follow_joint_trajectory
-            self.get_logger().info(f"[{self.goal_prim}] Joint goal {target_pose} sent to the robot, expecting a [{time_in_sec}s] execution duration as expected.")
+            self.get_logger().info(f"[{self.goal_prim}] Joint goal {target_pose} sent to the robot, expecting a [{time_in_sec}s] execution duration.")
 
             return send_goal_future
         else:
@@ -173,7 +176,7 @@ class command_slrobot(Node):
         time_in_sec: int = 3
     ):
         """
-        Send trajectory to the UR5 gripper in Isaac Sim.
+        Send trajectory to the gripper in Isaac Sim.
 
         Parameters
         ----------
@@ -303,6 +306,9 @@ def main(
         List of joint positions. (sys.argv[2])
     goal_exec_duration : int
         Time in seconds to complete the action. (sys.argv[3])
+    full_sequence_flag : boolean
+        full pick/place sequence execution flag
+        {true, false}
 
     """
 
@@ -324,9 +330,11 @@ def main(
         return output_array
     pose_joint_angles = convert_strings_to_floats(pose_joint_angles_str)
     goal_exec_duration = int(sys.argv[3])
+    full_sequence_flag = (sys.argv[4] == 'true')
+
     print('==================================')
     print('Initialization of the node command_slrobot')
-    print(goal_prim,pose_joint_angles,goal_exec_duration)
+    print(goal_prim,pose_joint_angles,goal_exec_duration,full_sequence_flag)
     print('==================================')
 
 
@@ -344,19 +352,48 @@ def main(
     ########################
     #       SEND GOAL      #
     ########################
-    # send command to the robot and get the feedback
-    if(goal_prim == 'robot'):
-        future = slrobot_client.send_goal_robot(pose_joint_angles, goal_exec_duration)
-    elif(goal_prim == 'gripper'):
-        future = slrobot_client.send_goal_gripper(pose_joint_angles, goal_exec_duration)
-    else:
-        print('[ERROR]: The prim needs to be set either to "robot" or to "gripper" to control on of these two systems.')
-        exit
+    if(not full_sequence_flag):
+        # send command to the robot and get the feedback
+        if(goal_prim == 'robot'):
+            future = slrobot_client.send_goal_robot(pose_joint_angles, goal_exec_duration)
+        elif(goal_prim == 'gripper'):
+            future = slrobot_client.send_goal_gripper(pose_joint_angles, goal_exec_duration)
+        else:
+            print('[ERROR]: The prim needs to be set either to "robot" or to "gripper" to control on of these two systems.')
+            exit
 
-    # Execute the node until its goal is achieved
-    # spin_until_future_complete: tool that executes a command from a node until the future condition is verified
-    rclpy.spin_until_future_complete(slrobot_client, future)
-    print("The goal is reached, shutting down the action node.")
+        # Execute the node until its goal is achieved
+        # spin_until_future_complete: tool that executes a command from a node until the future condition is verified
+        rclpy.spin_until_future_complete(slrobot_client, future)
+        print("The goal is reached, shutting down the action node.")
+
+    else:
+        # Send command by command, to execute the full pick/place sequence
+        # init
+        future_init = slrobot_client.send_goal_robot([-1.5708, -2.5, 2.5, -3.1415, 0.0, 0.0], 3)
+        rclpy.spin_until_future_complete(slrobot_client, future_init)
+        time.sleep(0.5)
+        # pick_far
+        future_pick_far = slrobot_client.send_goal_robot([1.5053, -1.2618, 1.8317, -2.1601, -1.5708, -0.0654], 3)
+        rclpy.spin_until_future_complete(slrobot_client, future_pick_far)
+        time.sleep(0.5)
+        # rest
+        future_pick = slrobot_client.send_goal_robot([1.5053, -1.2095, 1.8841, -2.2383, -1.5708, -0.0654], 3)
+        rclpy.spin_until_future_complete(slrobot_client, future_pick)
+        time.sleep(0.5)
+        # rest
+        future_place_far = slrobot_client.send_goal_robot([-0.1003, -1.2401, 1.8501, -2.1901, -1.5708, -0.0436], 3)
+        rclpy.spin_until_future_complete(slrobot_client, future_place_far)
+        time.sleep(0.5)
+        # rest
+        future_place = slrobot_client.send_goal_robot([-0.1003, -1.1921, 1.8588, -2.2381, -1.5708, -0.0436], 3)
+        rclpy.spin_until_future_complete(slrobot_client, future_place)
+        time.sleep(0.5)
+        # rest
+        future_rest = slrobot_client.send_goal_robot([0.0, -2.1817, 2.1817, -1.5708, -1.5708, 0.0], 3)
+        rclpy.spin_until_future_complete(slrobot_client, future_rest)
+
+
 
     ########################
     #     DESTROY NODE     #

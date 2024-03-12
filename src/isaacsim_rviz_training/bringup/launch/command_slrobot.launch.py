@@ -19,6 +19,9 @@ target_pose : arg string
     {'rest', 'pick_far', 'pick', 'place_far', 'place', 'init', 'user_defined'}
 goal_exec_time : arg string
     time in second to go from the current location to the targeted pose
+full_sequence: boolean
+    full pick/place sequence execution flag
+    {true, false}
 
 """
 
@@ -51,14 +54,16 @@ TARGET_POSE_GRIPPER_LIST = np.array([[0.02, 0.02],     #open
 
 
 ########################
-#    ARGS DEFINITION    #
+#    ARGS DEFINITION   #
 ########################
 # Declaration of the arguments that are called from the console with "arg_name:=value"
 launch_args = [
-    DeclareLaunchArgument('prim', default_value='robot'), # {'robot', 'gripper'}
-    DeclareLaunchArgument('target', default_value='init'),  #{'rest', 'pick_far', 'pick', 'place_far', 'place', 'init', 'user_defined'}
-    DeclareLaunchArgument('execution_time', default_value='3')    # time in second
+    DeclareLaunchArgument('prim', default_value='robot', description='define the targeted prim to be controlled'),                      # {'robot', 'gripper'}
+    DeclareLaunchArgument('target', default_value='init', description='define the pose to which the targeted prim needs to be moved'),  # {'rest', 'pick_far', 'pick', 'place_far', 'place', 'init', 'user_defined'}
+    DeclareLaunchArgument('execution_time', default_value='3', description='time [s] to go from current location to targeted pose'),    # time in second
+    DeclareLaunchArgument('full_sequence', default_value='false', description='executes the full sequence')                             # full pick/place sequence execution
 ]
+
 
 
 # METHOD: setup the launch context in order to retrieve the value of the arguments 
@@ -71,29 +76,29 @@ def launch_setup(context):
     ########################
     # Retrieve the value of the arguments for them to be used as python variables
     goal_prim= LaunchConfiguration('prim').perform(context)
-    target_pose= LaunchConfiguration('target').perform(context)
+    target_pose_name= LaunchConfiguration('target').perform(context)
     goal_exec_time= LaunchConfiguration('execution_time').perform(context)
-
+    full_sequence_flag= LaunchConfiguration('full_sequence').perform(context)
 
     ########################
     #   POSE DEFINITION    #
     ########################
     #ROBOT pose definition
-    if (goal_prim == 'robot' and target_pose in TARGET_POSE_ROBOT_NAME_LIST):
+    if (goal_prim == 'robot' and target_pose_name in TARGET_POSE_ROBOT_NAME_LIST):
         for i in range(0,len(TARGET_POSE_ROBOT_LIST)):
-            if target_pose == TARGET_POSE_ROBOT_NAME_LIST[i]:
+            if target_pose_name == TARGET_POSE_ROBOT_NAME_LIST[i]:
                 target_joint_angles = TARGET_POSE_ROBOT_LIST[i,:]
 
     #GRIPPER pose definition
-    elif(goal_prim == 'gripper' and target_pose in TARGET_POSE_GRIPPER_NAME_LIST):
+    elif(goal_prim == 'gripper' and target_pose_name in TARGET_POSE_GRIPPER_NAME_LIST):
         for i in range(0,len(TARGET_POSE_GRIPPER_LIST)):
-            if target_pose == TARGET_POSE_GRIPPER_NAME_LIST[i]:
+            if target_pose_name == TARGET_POSE_GRIPPER_NAME_LIST[i]:
                 target_joint_angles = TARGET_POSE_GRIPPER_LIST[i,:]
 
     #ERROR
     else:
         sys.exit(('[ERROR]: The prim needs to be set either to "robot" or to "gripper" to control on of these two systems.\n\
-                        And the "target_pose" argument has to belong to the following list of pose:',\
+                        And the "target_pose_name" argument has to belong to the following list of pose:',\
                         TARGET_POSE_ROBOT_NAME_LIST,'\n', TARGET_POSE_GRIPPER_NAME_LIST ))
     
     # Convert target_joint_angles array to string in order to be passed as a node argument (requiring string or LaunchConfiguration types)
@@ -102,7 +107,7 @@ def launch_setup(context):
 
     print('==================================')
     print('[command_slrobot.launch.py] [INFO]: The prim',goal_prim,'will perform the requested trajectory',\
-           'during [',goal_exec_time,'s], from the current position to the',target_pose,'position :',target_joint_angles_str)
+           'during [',goal_exec_time,'s], from the current position to the',target_pose_name,'position :[',target_joint_angles_str,']')
     print('==================================')
 
     ########################
@@ -114,7 +119,7 @@ def launch_setup(context):
         executable='command_slrobot.py',
         output="screen",
         # The arguments define the position of the gripper slider and the timtargete to perform the grasping in sec.
-        arguments=[goal_prim, target_joint_angles_str, goal_exec_time])
+        arguments=[goal_prim, target_joint_angles_str, goal_exec_time, full_sequence_flag])
 
     return [command_slrobot]
 #--------------------------------------------------------------
@@ -133,6 +138,7 @@ def generate_launch_description():
     ########################
     #     NODES TO CALL    #
     ########################
+    # Instentiate the OpaqueFunction named launch_setup to retrieve arguments value and setup the nodes to call
     nodes_to_call = OpaqueFunction(function = launch_setup)
     launch_description.add_action(nodes_to_call)
 

@@ -170,8 +170,11 @@ Note: to get a full training on ros2 control : https://github.com/ros-controls/r
 * TIPS: variables of type DeclareLaunchArgument and LaunchConfiguration can't be used as a python variable, 
         they can simply be passed, as ROS2 first build the context and then executes the nodes. With the 
         OpaqueFunction() one can delay the execution of code, so that the context exists and the value can be retrieved. 
-    *   WRONG `LaunchConfiguration('goal_prim') == 'gripper'`
-    * CORRECT `parameters=[robot_description,controller_params_file]`
+    * https://docs.openvins.com/gs-tutorial.html#gs-tutorial-ros2
+    * https://robotics.stackexchange.com/questions/104340/getting-the-value-of-launchargument-inside-python-launch-file
+    *   WRONG `goal_prim = LaunchConfiguration('prim')`
+    * CORRECT `goal_prim= LaunchConfiguration('prim').perform(context)`
+
 
 ### --- SCRIPT ---
 
@@ -182,6 +185,19 @@ Note: to get a full training on ros2 control : https://github.com/ros-controls/r
     * MSG TYPE: control_msgs/msg/JointTrajectoryControllerState
     * ECHO: ros2 topic echo /joint_trajectory_controller/controller_state control_msgs/msg/JointTrajectoryControllerState --field reference
 
+#### controlMsg2jointMsg_pubSub.py
+* Convert /joint_trajectory_controller/controller_state to sensor_msgs/msg/JointState
+* https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html
+* It can happen that, when the callback function of the subscriber is called, self variable is populated with the subscribed_msg:
+    * self.subscriber_callback_method is a bound method - it already contains a reference to the scope that 
+        it is bound to (saved in the __self__ variable). So it is never needed to provide the self argument, 
+        regardless of where the method is called.
+    * https://robotics.stackexchange.com/questions/101565/dynamically-create-subcription-callback-functions-python
+    * https://stackoverflow.com/questions/70511324/typeerror-missing-one-required-positional-argument-event
+    * solution: hard set the self variable `setattr(self, 'listener2writer_callback', self.listener2writer_callback.__get__(self, self.__class__))`
+* send the goal feedback to the actual joint trajectory feedback topic:
+    * to find the hidden topic: `ros2 topic list --include-hidden-topics -t`
+    * to list the publisher/subscriber of this topic `ros2 topic info --verbose /topic_name`
 
 ### --- rviz ---
 

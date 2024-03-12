@@ -194,7 +194,7 @@ def generate_launch_description():
     nodes_to_start = [
         robot_state_publisher_node,
         delayed_controller_manager,
-        delayed_joint_state_broadcaster_controller,
+        # delayed_joint_state_broadcaster_controller,
         delayed_joint_trajectory_controller,
         delayed_controlMsg2jointMsg_node,
         delayed_isaacsim_node,

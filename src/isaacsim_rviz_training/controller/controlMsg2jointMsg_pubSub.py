@@ -25,8 +25,7 @@ from rclpy.node import Node
 # Publisher / Subscriber messages types
 from sensor_msgs.msg import JointState
 from control_msgs.msg import JointTrajectoryControllerState
-from trajectory_msgs.msg import JointTrajectoryPoint
-import time
+from control_msgs.action._follow_joint_trajectory import FollowJointTrajectory_FeedbackMessage
 
 ########################
 #   CONST DEFINITION   #
@@ -44,29 +43,32 @@ class controlMsg2jointMsg_pubSub(Node):
 
 
         ########################
-        #       PUBLISHER      #
+        #      PUBLISHERS      #
         ########################
+        # Publish the trajectory interpolated by JointTrajectoryController on /joint_command topic read by ISAAC
         self.publisher_ = self.create_publisher(
             JointState,             # Msg type
             '/joint_commands',      # Topic
             10                      # QoS
         )
-        # timer_period = 0.5  # seconds
-        # self.writer_timer = self.create_timer(timer_period, self.listener2writer_callback)
-        # self.pub_counter = 0 # counter starting at publisher init
      
         ########################
-        #      SUBSCRIBER      #
+        #      SUBSCRIBERS     #
         ########################
-        # Define a subscriber subscribing to control_msgs/msg/JointTrajectoryControllerState message on the /joint_trajectory_controller/controller_state topic
+        # Subscribe to /joint_trajectory_controller/controller_state topic to retrieve the interpolated trajectory
         self.subscriber_ = self.create_subscription(
             JointTrajectoryControllerState,                      # Msg type
             '/joint_trajectory_controller/controller_state',     # Topic
             self.listener2writer_callback,                       # Function to call at reading
             10                                                   # QoS
         )
-        # self.subscriber_ # prevent unused variable warning
 
+        # self.subscriber2_ = self.create_subscription(
+        #     FollowJointTrajectory_FeedbackMessage,                      # Msg type
+        #     '/joint_trajectory_controller/follow_joint_trajectory/_action/feedback',     # Topic
+        #     self.listenertest_callback,                       # Function to call at reading
+        #     10                                                   # QoS
+        # )
 
     ########################
     #  LISTENER CALLBACK   #
@@ -88,26 +90,30 @@ class controlMsg2jointMsg_pubSub(Node):
         pose_joint_velocities = reference.velocities[:]     #type: array.array
         pose_joint_effort = reference.effort[:]             #type: array.array
         joint_names = listened_msg.joint_names
-        # reference=trajectory_msgs.msg.JointTrajectoryPoint(
-        #     positions=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.7040477e-317], 
-        #     velocities=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
-        #     accelerations=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
-        #     effort=[], 
-        #     time_from_start=builtin_interfaces.msg.Duration(sec=0, nanosec=0))
         
-        # self.get_logger().info(listened_msg)
-
+        # build the published message
         published_msg = JointState()
         published_msg._name = joint_names                   #string[]
         published_msg._position = pose_joint_angles         #float64[]
         published_msg._velocity = pose_joint_velocities     #float64[]
         published_msg._effort = pose_joint_effort           #float64[]
 
+        # publish the JointState joint_command message
         self.publisher_.publish(published_msg)
-        # https://robotics.stackexchange.com/questions/101565/dynamically-create-subcription-callback-functions-python
-        # https://stackoverflow.com/questions/70511324/typeerror-missing-one-required-positional-argument-event
-        # setattr(self, 'listener2writer_callback', self.listener2writer_callback.__get__(self, self.__class__))
-    
+
+
+    # def listenertest_callback(self, msg):
+
+    #     self.get_logger().info(msg)
+
+
+
+
+
+
+########################
+#         MAIN         #
+########################
 def main(args=None):
 
     # Init ROS2
