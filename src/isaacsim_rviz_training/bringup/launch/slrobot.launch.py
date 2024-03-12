@@ -196,8 +196,8 @@ def generate_launch_description():
         delayed_controller_manager,
         delayed_joint_state_broadcaster_controller,
         delayed_joint_trajectory_controller,
-        # delayed_controlMsg2jointMsg_node,
-        # delayed_isaacsim_node,
+        delayed_controlMsg2jointMsg_node,
+        delayed_isaacsim_node,
         # rviz_node,
     ]
 

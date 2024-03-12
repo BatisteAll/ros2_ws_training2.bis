@@ -32,7 +32,7 @@ import time
 #   CONST DEFINITION   #
 ########################
 PKG_NAME = "isaacsim_rviz_training"
-NODE_NAME = "command_slrobot"
+NODE_NAME = "controlMsg2jointMsg_pubSub"
 ROBOT_NAME = "Spacelab Robot"
 
 
@@ -42,7 +42,6 @@ class controlMsg2jointMsg_pubSub(Node):
     def __init__(self):
         super().__init__('pubSubConverter')
 
-        self.get_logger().info('Initialization of controlMsg2jointMsg_pubSub node.')
 
         ########################
         #       PUBLISHER      #
@@ -52,9 +51,9 @@ class controlMsg2jointMsg_pubSub(Node):
             '/joint_commands',      # Topic
             10                      # QoS
         )
-        timer_period = 0.5  # seconds
-        self.writer_timer = self.create_timer(timer_period, self.listener2writer_callback)
-        self.pub_counter = 0 # counter starting at publisher init
+        # timer_period = 0.5  # seconds
+        # self.writer_timer = self.create_timer(timer_period, self.listener2writer_callback)
+        # self.pub_counter = 0 # counter starting at publisher init
      
         ########################
         #      SUBSCRIBER      #
@@ -66,7 +65,7 @@ class controlMsg2jointMsg_pubSub(Node):
             self.listener2writer_callback,                       # Function to call at reading
             10                                                   # QoS
         )
-        self.subscriber_ # prevent unused variable warning
+        # self.subscriber_ # prevent unused variable warning
 
 
     ########################
@@ -77,16 +76,17 @@ class controlMsg2jointMsg_pubSub(Node):
         Description
         -----------
         Callback called whenever something is published on the subscribed topic, then write what has been heard.
+        self.subscriber_callback_method is a bound method - it already contains a reference to the scope that 
+        it is bound to (saved in the __self__ variable). So it is never needed to provide the self argument, 
+        regardless of where the method is called.
         """
         
         # Recover the waypoint from JointTrajectoryController messages
-        print(type(listened_msg))
-        print(type(listened_msg.reference))
-        print(type(listened_msg.reference.positions))
-        reference = listened_msg.reference
-        pose_joint_angles = reference.positions[:]
-        pose_joint_velocities = reference.velocities[:]
-        pose_joint_effort = reference.effort[:]
+        # listened_msg type: control_msgs.msg._joint_trajectory_controller_state.JointTrajectoryControllerState
+        reference = listened_msg.reference                  #type: trajectory_msgs.msg._joint_trajectory_point.JointTrajectoryPoint 
+        pose_joint_angles = reference.positions[:]          #type: array.array
+        pose_joint_velocities = reference.velocities[:]     #type: array.array
+        pose_joint_effort = reference.effort[:]             #type: array.array
         joint_names = listened_msg.joint_names
         # reference=trajectory_msgs.msg.JointTrajectoryPoint(
         #     positions=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.7040477e-317], 
@@ -98,10 +98,10 @@ class controlMsg2jointMsg_pubSub(Node):
         # self.get_logger().info(listened_msg)
 
         published_msg = JointState()
-        published_msg._name = joint_names
-        published_msg._position = pose_joint_angles
-        published_msg._velocity = pose_joint_velocities
-        published_msg._effort = pose_joint_effort
+        published_msg._name = joint_names                   #string[]
+        published_msg._position = pose_joint_angles         #float64[]
+        published_msg._velocity = pose_joint_velocities     #float64[]
+        published_msg._effort = pose_joint_effort           #float64[]
 
         self.publisher_.publish(published_msg)
         # https://robotics.stackexchange.com/questions/101565/dynamically-create-subcription-callback-functions-python
@@ -109,8 +109,14 @@ class controlMsg2jointMsg_pubSub(Node):
         # setattr(self, 'listener2writer_callback', self.listener2writer_callback.__get__(self, self.__class__))
     
 def main(args=None):
+
+    # Init ROS2
     rclpy.init(args=args)
+
+    # Create an instance of the class object
     pubSubConverter = controlMsg2jointMsg_pubSub()
+
+    # Spin the node
     rclpy.spin(pubSubConverter)
     
     # Destroy the node explicitly
