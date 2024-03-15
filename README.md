@@ -25,6 +25,7 @@
         ros2 run controller_manager spawner joint_trajectory_controller
 
     ros2 topic pub /joint_states sensor_msgs/msg/JointState "{name: ['joint_1_2', 'joint_2_3'], position: [0.5, 0.4], velocity: [1.0, 1.2], effort: [0.0, 0.0]}"
+    ros2 topic pub /joint_commands sensor_msgs/msg/JointState "{name: ['joint_EE_Lgripper'], position: [0.02], velocity: [1.0], effort: [0.0]}"
 
 
 #### --- XXX --- Debug ---
@@ -184,6 +185,8 @@ Note: to get a full training on ros2 control : https://github.com/ros-controls/r
     * TOPIC: /joint_trajectory_controller/controller_state 
     * MSG TYPE: control_msgs/msg/JointTrajectoryControllerState
     * ECHO: ros2 topic echo /joint_trajectory_controller/controller_state control_msgs/msg/JointTrajectoryControllerState --field reference
+* this node is related to an action server, if the feedback needs to be printed, then the node needs to be spinning
+    * to know more about the spin func: https://docs.ros2.org/foxy/api/rclpy/api/init_shutdown.html
 
 #### controlMsg2jointMsg_pubSub.py
 * Convert /joint_trajectory_controller/controller_state to sensor_msgs/msg/JointState

@@ -84,9 +84,9 @@ class command_slrobot(Node):
         #########################
         # GRIPPER ACTION CLIENT #
         #########################
-        self._gripper_action_client = ActionClient(self,
-                                                    FollowJointTrajectory,
-                                                    '/joint_trajectory_controller/follow_joint_trajectory')
+        # self._gripper_action_client = ActionClient(self,
+        #                                             FollowJointTrajectory,²
+        #                                             '/joint_trajectory_controller/follow_joint_trajectory')
         
         ########################
         #   ROS2 PARAMETERS    #
@@ -116,7 +116,7 @@ class command_slrobot(Node):
     def send_goal_robot(
         self,
         target_pose: list,
-        time_in_sec: int = 3
+        time_in_sec: int
     ):
         """
         Send trajectory to the robot in Isaac Sim.
@@ -173,7 +173,7 @@ class command_slrobot(Node):
     def send_goal_gripper(
         self,
         target_pose: list,
-        time_in_sec: int = 3
+        time_in_sec: int
     ):
         """
         Send trajectory to the gripper in Isaac Sim.
@@ -190,7 +190,8 @@ class command_slrobot(Node):
             self.goal_prim = 'GRIPPER'
 
             # Get the list of actuated joints from the param list
-            gripper_joint_names = self.ros_parameters['actuated_robot_joints']
+            gripper_joint_names = self.ros_parameters['actuated_gripper_joints']
+            self.get_logger().info(f"Requested joints to be actuated: {gripper_joint_names}")
 
             # Define the goal of the requested "action" as a "FollowJointTrajectory.Goal"
             goal = FollowJointTrajectory.Goal()
@@ -204,12 +205,15 @@ class command_slrobot(Node):
                                     time_from_start=duration))
             
             # Contact the server to send the requested goal (timeout if no server is found) (wait_for_server() is a method of the ActionClient() class)
-            self._gripper_action_client.wait_for_server(timeout_sec=10.0)
+            server_reached = self._action_client.wait_for_server(timeout_sec=10.0)
+            if not server_reached:
+                self.get_logger().error(f'Unable to connect to {self.goal_prim} action server. Timeout exceeded.')
+                sys.exit()
 
             # Send the goal to the server
-            send_goal_future =self._gripper_action_client.send_goal_async(goal,feedback_callback=self.feedback_callback)
+            send_goal_future =self._action_client.send_goal_async(goal,feedback_callback=self.feedback_callback)
             send_goal_future.add_done_callback(self.goal_response_callback)
-            self.get_logger().info(f"[{self.goal_prim}] Joint goal [{target_pose}] sent to the robot.")
+            self.get_logger().info(f"[{self.goal_prim}] Joint goal {target_pose} sent to the robot.")
 
             return send_goal_future
         else:
@@ -230,7 +234,7 @@ class command_slrobot(Node):
             Feedback message from the action server
 
         """
-        self.get_logger().info("===========METHOD: feedback_callback")
+        self.get_logger().info("ENTERING ACTION GOAL: feedback_callback")
         feedback = feedback_msg.feedback
         info = self.get_logger().info
         des_positions = np.round(feedback.desired.positions, 5)
@@ -251,6 +255,7 @@ class command_slrobot(Node):
     def goal_response_callback(self, future):
         """
         Receives the response from the action server.
+        {Accepted / Rejected}
 
         Parameters
         ----------
@@ -258,7 +263,7 @@ class command_slrobot(Node):
             Future object with the response from the action server
 
         """
-        self.get_logger().info("===========METHOD: goal_response_callback")
+        self.get_logger().info("ENTERING ACTION GOAL: goal_status_callback")
         goal_handle = future.result()
         if not goal_handle.accepted:
             self.get_logger().warn('Goal rejected :(')
@@ -281,7 +286,7 @@ class command_slrobot(Node):
             Future object with the result from the action server
 
         """
-        self.get_logger().info("===========METHOD: get_result_callback")
+        self.get_logger().info("ENTERING ACTION GOAL: RESULT_callback")
         result = future.result().result
         self.get_logger().info(f'[Feedback] [{self.goal_prim}] Result: {result.error_string}')
     #------------------------------------------------------
@@ -332,11 +337,6 @@ def main(
     goal_exec_duration = int(sys.argv[3])
     full_sequence_flag = (sys.argv[4] == 'true')
 
-    print('==================================')
-    print('Initialization of the node command_slrobot')
-    print(goal_prim,pose_joint_angles,goal_exec_duration,full_sequence_flag)
-    print('==================================')
-
 
     ########################
     #   INSTENTIATE NODE   #
@@ -345,8 +345,11 @@ def main(
     slrobot_client = command_slrobot()
     # Execute the initialization method of the node
     # the spin_once tool executes one action and stop at the first callback of either timeout or the end of the node execution
-    rclpy.spin_once(slrobot_client, timeout_sec=0.5)
+    # rclpy.spin_once(slrobot_client, timeout_sec=0.5)
 
+
+    print('==================================')
+    print('Initialization of the node command_slrobot')
 
 
     ########################
@@ -356,43 +359,58 @@ def main(
         # send command to the robot and get the feedback
         if(goal_prim == 'robot'):
             future = slrobot_client.send_goal_robot(pose_joint_angles, goal_exec_duration)
+            print('Moving the robot to',pose_joint_angles,' during ',goal_exec_duration,'[s]. The full sequence execution is set to: ',full_sequence_flag)
+            print('==================================')
         elif(goal_prim == 'gripper'):
             future = slrobot_client.send_goal_gripper(pose_joint_angles, goal_exec_duration)
-        else:
+            print('Moving the gripper to',pose_joint_angles,'m from the TCP, during ',goal_exec_duration,'[s]. The full sequence execution is set to: ',full_sequence_flag)
+            print('==================================')
+        else: 
             print('[ERROR]: The prim needs to be set either to "robot" or to "gripper" to control on of these two systems.')
+            print('==================================')
             exit
 
         # Execute the node until its goal is achieved
         # spin_until_future_complete: tool that executes a command from a node until the future condition is verified
-        rclpy.spin_until_future_complete(slrobot_client, future)
+        # rclpy.spin_until_future_complete(slrobot_client, future)
+        start_time = time.time()
+        while((time.time()-start_time)<goal_exec_duration):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
         print("The goal is reached, shutting down the action node.")
 
     else:
+        start_time = time.time()
         # Send command by command, to execute the full pick/place sequence
         # init
         future_init = slrobot_client.send_goal_robot([-1.5708, -2.5, 2.5, -3.1415, 0.0, 0.0], 3)
-        rclpy.spin_until_future_complete(slrobot_client, future_init)
-        time.sleep(0.5)
+        # rclpy.spin_until_future_complete(slrobot_client, future_init)
+        while((time.time()-start_time)<goal_exec_duration):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
         # pick_far
         future_pick_far = slrobot_client.send_goal_robot([1.5053, -1.2618, 1.8317, -2.1601, -1.5708, -0.0654], 3)
-        rclpy.spin_until_future_complete(slrobot_client, future_pick_far)
-        time.sleep(0.5)
+        # rclpy.spin_until_future_complete(slrobot_client, future_pick_far)
+        while((time.time()-start_time)<goal_exec_duration*2):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
         # rest
         future_pick = slrobot_client.send_goal_robot([1.5053, -1.2095, 1.8841, -2.2383, -1.5708, -0.0654], 3)
-        rclpy.spin_until_future_complete(slrobot_client, future_pick)
-        time.sleep(0.5)
+        # rclpy.spin_until_future_complete(slrobot_client, future_pick)
+        while((time.time()-start_time)<goal_exec_duration*3):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
         # rest
         future_place_far = slrobot_client.send_goal_robot([-0.1003, -1.2401, 1.8501, -2.1901, -1.5708, -0.0436], 3)
-        rclpy.spin_until_future_complete(slrobot_client, future_place_far)
-        time.sleep(0.5)
+        # rclpy.spin_until_future_complete(slrobot_client, future_place_far)
+        while((time.time()-start_time)<goal_exec_duration*4):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
         # rest
         future_place = slrobot_client.send_goal_robot([-0.1003, -1.1921, 1.8588, -2.2381, -1.5708, -0.0436], 3)
-        rclpy.spin_until_future_complete(slrobot_client, future_place)
-        time.sleep(0.5)
+        # rclpy.spin_until_future_complete(slrobot_client, future_place)
+        while((time.time()-start_time)<goal_exec_duration*5):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
         # rest
         future_rest = slrobot_client.send_goal_robot([0.0, -2.1817, 2.1817, -1.5708, -1.5708, 0.0], 3)
-        rclpy.spin_until_future_complete(slrobot_client, future_rest)
-
+        # rclpy.spin_until_future_complete(slrobot_client, future_rest)
+        while((time.time()-start_time)<goal_exec_duration*6):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
 
 
     ########################

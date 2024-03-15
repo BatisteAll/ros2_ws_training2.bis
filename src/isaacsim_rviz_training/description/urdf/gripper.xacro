@@ -76,7 +76,7 @@
     <child link="link_Lgripper" />
     <origin rpy="0 0 0" xyz="0 0 0" />
     <axis xyz="1 0 0" />
-    <limit effort="500" lower="-0.02" upper="0.0" velocity="0.05"/>
+    <limit effort="500" lower="-0.02" upper="0.02" velocity="0.05"/>
     <dynamics damping="60.0" friction="4.0" />
   </joint>     
 
@@ -114,17 +114,17 @@
     <child link="link_Rgripper" />
     <origin rpy="0 0 0" xyz="0 0 0" />
     <axis xyz="1 0 0" />
-    <limit effort="500" lower="0.0" upper="0.02" velocity="0.05"/>
+    <limit effort="500" lower="-0.02" upper="0.02" velocity="0.05"/>
     <dynamics damping="60.0" friction="4.0" />
     <!-- Mimic the movement of joint_EE_Lgripper -->
-    <mimic joint="joint_EE_Lgripper" multiplier="-1" offset="0" />
+    <!-- <mimic joint="joint_EE_Lgripper" multiplier="-1" offset="0" /> -->
   </joint>
   <!-- The next joint and links are just for debug purposes related to the "_mimic"
    suffix added by the gazebo ros2 control plugin at the end of the joint -->
-  <joint name="joint_EE_Rgripper_mimic" type="fixed">
+  <!-- <joint name="joint_EE_Rgripper_mimic" type="fixed">
     <parent link="world" />
     <child link="random" />
   </joint>
-  <link name="random"/>
+  <link name="random"/> -->
 
 </robot>

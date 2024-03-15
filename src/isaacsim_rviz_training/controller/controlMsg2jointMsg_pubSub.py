@@ -51,6 +51,13 @@ class controlMsg2jointMsg_pubSub(Node):
             '/joint_commands',      # Topic
             10                      # QoS
         )
+
+        # Publish the joint states from ISAAC onto the Joint_trajectory_controller feedback topic
+        # self.publisher2_ = self.create_publisher(
+        #     FollowJointTrajectory_FeedbackMessage,                                       # Msg type
+        #     '/joint_trajectory_controller/follow_joint_trajectory/_action/feedback',     # Topic
+        #     10                                                                           # QoS
+        # )
      
         ########################
         #      SUBSCRIBERS     #
@@ -59,21 +66,22 @@ class controlMsg2jointMsg_pubSub(Node):
         self.subscriber_ = self.create_subscription(
             JointTrajectoryControllerState,                      # Msg type
             '/joint_trajectory_controller/controller_state',     # Topic
-            self.listener2writer_callback,                       # Function to call at reading
+            self.jointCommand_callback,                          # Function to call at reading
             10                                                   # QoS
         )
 
+        # Subscribe to /joint_states topic from ISAAC
         # self.subscriber2_ = self.create_subscription(
-        #     FollowJointTrajectory_FeedbackMessage,                      # Msg type
-        #     '/joint_trajectory_controller/follow_joint_trajectory/_action/feedback',     # Topic
-        #     self.listenertest_callback,                       # Function to call at reading
-        #     10                                                   # QoS
+        #     FollowJointTrajectory_FeedbackMessage,            # Msg type
+        #     '/joint_states',                                  # Topic
+        #     self.jointState_callback,                       # Function to call at reading
+        #     10                                                # QoS
         # )
 
     ########################
     #  LISTENER CALLBACK   #
     ########################
-    def listener2writer_callback(self, listened_msg):
+    def jointCommand_callback(self, jointTrajectory_msg):
         """
         Description
         -----------
@@ -84,12 +92,12 @@ class controlMsg2jointMsg_pubSub(Node):
         """
         
         # Recover the waypoint from JointTrajectoryController messages
-        # listened_msg type: control_msgs.msg._joint_trajectory_controller_state.JointTrajectoryControllerState
-        reference = listened_msg.reference                  #type: trajectory_msgs.msg._joint_trajectory_point.JointTrajectoryPoint 
+        # jointTrajectory_msg type: control_msgs.msg._joint_trajectory_controller_state.JointTrajectoryControllerState
+        reference = jointTrajectory_msg.reference           #type: trajectory_msgs.msg._joint_trajectory_point.JointTrajectoryPoint 
         pose_joint_angles = reference.positions[:]          #type: array.array
         pose_joint_velocities = reference.velocities[:]     #type: array.array
         pose_joint_effort = reference.effort[:]             #type: array.array
-        joint_names = listened_msg.joint_names
+        joint_names = jointTrajectory_msg.joint_names
         
         # build the published message
         published_msg = JointState()
@@ -98,15 +106,40 @@ class controlMsg2jointMsg_pubSub(Node):
         published_msg._velocity = pose_joint_velocities     #float64[]
         published_msg._effort = pose_joint_effort           #float64[]
 
+
+        # print("--------------------------------------------------")
+        # print(pose_joint_angles[:])
+        # print("--------------------------------------------------")
         # publish the JointState joint_command message
         self.publisher_.publish(published_msg)
 
 
-    # def listenertest_callback(self, msg):
 
-    #     self.get_logger().info(msg)
+    ########################
+    #  LISTENER2 CALLBACK  #
+    ########################
+    # def jointState_callback(self, jointState_msg):
+    #     """
+    #     Description
+    #     -----------
+    #     Callback called whenever something is published on the subscribed topic, then write what has been heard.
+    #     """
 
+    #     # build the published message
+    #     joint_names = jointState_msg.name                 #string[]
+    #     pose_joint_angles = jointState_msg.position       #float64[]
+    #     pose_joint_velocities = jointState_msg.velocity   #float64[]
+    #     pose_joint_effort = jointState_msg.effort         #float64[]
 
+        
+    #     # build the published message
+    #     published_msg = FollowJointTrajectory_FeedbackMessage()
+    #     published_msg.joint_names = joint_names                     #string[]
+    #     published_msg.actual.positions = pose_joint_angles          #float64[]
+    #     published_msg.actual.velocities = pose_joint_velocities     #float64[]
+
+    #     # publish the JointState joint_command message
+    #     self.publisher2_.publish(published_msg)
 
 
 

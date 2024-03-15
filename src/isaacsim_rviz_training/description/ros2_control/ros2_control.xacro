@@ -83,16 +83,17 @@
 		</joint>
 		<joint name="joint_EE_Lgripper">
 			<command_interface name="position">
-				<param name="min">0.0</param>
+				<param name="min">-0.02</param>
 				<param name="max">0.02</param>
 			</command_interface>
 			<state_interface name="position"/>
 			<state_interface name="velocity"/>
 		</joint> 
 		<joint name="joint_EE_Rgripper">
-				<param name="mimic">joint_EE_Lgripper</param>
-				<param name="multiplier">-1</param>
-			<command_interface name="position"/>
+			<command_interface name="position">
+				<param name="min">-0.02</param>
+				<param name="max">0.02</param>
+			</command_interface>
 			<state_interface name="position"/>
 			<state_interface name="velocity"/>
 		</joint>

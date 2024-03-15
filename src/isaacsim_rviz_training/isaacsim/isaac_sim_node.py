@@ -54,6 +54,8 @@ theta_camrot = 0.0
 ########################
 # enable ROS2 bridge extension
 extensions.enable_extension("omni.isaac.ros2_bridge")
+# enable the joint GUI
+extensions.enable_extension("omni.isaac.articulation_inspector")
 
 # Check/set ROS domain ID
 try:
@@ -153,7 +155,7 @@ try:
                 # Setting the /spacelab_robot target prim to Articulation Controller node
                 ("ArticulationController.inputs:usePath", True),
                 ("ArticulationController.inputs:robotPath", SPACELAB_ROBOT_STAGE_PATH),
-                ("PublishJointState.inputs:topicName", "joint_states"),
+                ("PublishJointState.inputs:topicName", "/isaac_joint_states"),
                 ("SubscribeJointState.inputs:topicName", "/joint_commands"),
                 ("PublishJointState.inputs:targetPrim", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
                 ("PublishTF.inputs:targetPrims", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),

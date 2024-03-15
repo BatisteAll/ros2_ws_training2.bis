@@ -39,6 +39,11 @@ namespace isaacsim_rviz_training
         joint_velocities_.assign(6, 0);
         joint_position_command_.assign(6, 0);
         joint_velocities_command_.assign(6, 0);
+        // Set of state and command vectors (gripper has 2 joints and 2 interfaces)
+        gripper_fingers_position_.assign(2, 0);
+        gripper_fingers_velocities_.assign(2, 0);
+        gripper_fingers_position_command_.assign(2, 0);
+        gripper_fingers_velocities_command_.assign(2, 0);
         // force sensor has 6 readings
         ft_states_.assign(6, 0);
         ft_command_.assign(6, 0);
@@ -117,10 +122,19 @@ namespace isaacsim_rviz_training
         //     state_interfaces.emplace_back(joint_name, "velocity", &joint_velocities_[ind++]);
         // }
 
-        for (uint i = 0; i < info_.joints.size(); i++)
+        for (uint i = 0; i < 6; i++)//info_.joints.size(); i++)
         {
             state_interfaces.emplace_back(hardware_interface::StateInterface(info_.joints[i].name, hardware_interface::HW_IF_POSITION, &joint_position_[i]));
             state_interfaces.emplace_back(hardware_interface::StateInterface(info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &joint_velocities_[i]));
+        }
+        // If there is a gripper:
+        if (info_.joints.size() > 6)
+        {
+            for (uint i = 0; i < 2; i++)
+            {
+                state_interfaces.emplace_back(hardware_interface::StateInterface(info_.joints[i+6].name, hardware_interface::HW_IF_POSITION, &gripper_fingers_position_[i]));
+                state_interfaces.emplace_back(hardware_interface::StateInterface(info_.joints[i+6].name, hardware_interface::HW_IF_VELOCITY, &gripper_fingers_velocities_[i]));
+            }
         }
 
         // fill "state_interfaces" with the force torque sensor data
@@ -157,10 +171,19 @@ namespace isaacsim_rviz_training
         //     command_interfaces.emplace_back(joint_name, "velocity", &joint_velocities_command_[ind++]);
         // }
 
-        for (uint i= 0; i < info_.joints.size(); i++)
+        for (uint i = 0; i < 6; i++)//info_.joints.size(); i++)
         {
             command_interfaces.emplace_back(hardware_interface::CommandInterface(info_.joints[i].name, hardware_interface::HW_IF_POSITION, &joint_position_command_[i]));
             command_interfaces.emplace_back(hardware_interface::CommandInterface(info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &joint_velocities_command_[i]));
+        }
+        // If there is a gripper:
+        if (info_.joints.size() > 6)
+        {
+            for (uint i = 0; i < 2; i++)
+            {
+                command_interfaces.emplace_back(hardware_interface::CommandInterface(info_.joints[i+6].name, hardware_interface::HW_IF_POSITION, &gripper_fingers_position_command_[i]));
+                command_interfaces.emplace_back(hardware_interface::CommandInterface(info_.joints[i+6].name, hardware_interface::HW_IF_VELOCITY, &gripper_fingers_velocities_command_[i]));
+            }
         }
 
         // fill "command_interfaces" with the target forces &  torques
@@ -180,17 +203,27 @@ namespace isaacsim_rviz_training
     //---------------------------------------------------------------------------------------
     return_type DOF6BOTSystem::read(const rclcpp::Time & /*time*/, const rclcpp::Duration & period)
     {
+        // Robot arm
         for (auto i = 0ul; i < joint_velocities_command_.size(); i++)
         {
             joint_velocities_[i] = joint_velocities_command_[i];
             joint_position_[i] += joint_velocities_command_[i] * period.seconds();
         }
-/*time*/
         for (auto i = 0ul; i < joint_position_command_.size(); i++)
         {
             joint_position_[i] = joint_position_command_[i];
         }
-
+        // Robot gripper
+        for (auto i = 0ul; i < gripper_fingers_velocities_command_.size(); i++)
+        {
+            gripper_fingers_velocities_[i] = gripper_fingers_velocities_command_[i];
+            gripper_fingers_position_[i] += gripper_fingers_velocities_command_[i] * period.seconds();
+        }
+        for (auto i = 0ul; i < gripper_fingers_position_command_.size(); i++)
+        {
+            gripper_fingers_position_[i] = gripper_fingers_position_command_[i];
+        }
+        
         return return_type::OK;
     }
     //---------------------------------------------------------------------------------------

@@ -95,8 +95,12 @@ namespace isaacsim_rviz_training
         // These vectors store hardware controller commands and states information
         std::vector<double> joint_position_command_;
         std::vector<double> joint_velocities_command_;
+        std::vector<double> gripper_fingers_position_command_;
+        std::vector<double> gripper_fingers_velocities_command_;
         std::vector<double> joint_position_;
         std::vector<double> joint_velocities_;
+        std::vector<double> gripper_fingers_position_;
+        std::vector<double> gripper_fingers_velocities_;
         std::vector<double> ft_states_;
         std::vector<double> ft_command_;
     };

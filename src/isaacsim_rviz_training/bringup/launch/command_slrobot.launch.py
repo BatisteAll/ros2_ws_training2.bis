@@ -48,8 +48,8 @@ TARGET_POSE_ROBOT_LIST = np.array([[0.0, -2.1817, 2.1817, -1.5708, -1.5708, 0.0]
                                   [-0.1003, -1.1921, 1.8588, -2.2381, -1.5708, -0.0436],    #place
                                   [-1.5708, -2.5, 2.5, -3.1415, 0.0, 0.0]])                 #init
 TARGET_POSE_GRIPPER_NAME_LIST = ['open', 'close']
-TARGET_POSE_GRIPPER_LIST = np.array([[0.02, 0.02],     #open
-                                    [0.0, 0.0]])       #close
+TARGET_POSE_GRIPPER_LIST = np.array([[0.0, 0.0],     #open
+                                    [-0.02, -0.02]])       #close
 
 
 
@@ -60,7 +60,7 @@ TARGET_POSE_GRIPPER_LIST = np.array([[0.02, 0.02],     #open
 launch_args = [
     DeclareLaunchArgument('prim', default_value='robot', description='define the targeted prim to be controlled'),                      # {'robot', 'gripper'}
     DeclareLaunchArgument('target', default_value='init', description='define the pose to which the targeted prim needs to be moved'),  # {'rest', 'pick_far', 'pick', 'place_far', 'place', 'init', 'user_defined'}
-    DeclareLaunchArgument('execution_time', default_value='3', description='time [s] to go from current location to targeted pose'),    # time in second
+    DeclareLaunchArgument('execution_time', default_value='10', description='time [s] to go from current location to targeted pose'),   # time in second
     DeclareLaunchArgument('full_sequence', default_value='false', description='executes the full sequence')                             # full pick/place sequence execution
 ]
 
