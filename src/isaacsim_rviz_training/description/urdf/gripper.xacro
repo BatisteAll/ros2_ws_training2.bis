@@ -26,12 +26,12 @@
   <link name="link_EE" >
     <visual>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/END_EFFECTOR.dae"/>
+        <mesh filename="package://${PKG_Name}/description/meshes/END_EFFECTOR.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/END_EFFECTOR.dae"/>
+        <mesh filename="package://${PKG_Name}/description/meshes/END_EFFECTOR.dae"/>
       </geometry>
     </collision>
     <!-- <inertial>
@@ -76,7 +76,7 @@
     <child link="link_Lgripper" />
     <origin rpy="0 0 0" xyz="0 0 0" />
     <axis xyz="1 0 0" />
-    <limit effort="500" lower="-0.02" upper="0.02" velocity="0.05"/>
+    <limit effort="500" lower="-0.02" upper="0.0" velocity="0.05"/>
     <dynamics damping="60.0" friction="4.0" />
   </joint>     
 
@@ -114,7 +114,7 @@
     <child link="link_Rgripper" />
     <origin rpy="0 0 0" xyz="0 0 0" />
     <axis xyz="1 0 0" />
-    <limit effort="500" lower="-0.02" upper="0.02" velocity="0.05"/>
+    <limit effort="500" lower="0.0" upper="0.02" velocity="0.05"/>
     <dynamics damping="60.0" friction="4.0" />
     <!-- Mimic the movement of joint_EE_Lgripper -->
     <!-- <mimic joint="joint_EE_Lgripper" multiplier="-1" offset="0" /> -->

@@ -358,13 +358,13 @@ def main(
     if(not full_sequence_flag):
         # send command to the robot and get the feedback
         if(goal_prim == 'robot'):
-            future = slrobot_client.send_goal_robot(pose_joint_angles, goal_exec_duration)
             print('Moving the robot to',pose_joint_angles,' during ',goal_exec_duration,'[s]. The full sequence execution is set to: ',full_sequence_flag)
             print('==================================')
+            future = slrobot_client.send_goal_robot(pose_joint_angles, goal_exec_duration)
         elif(goal_prim == 'gripper'):
-            future = slrobot_client.send_goal_gripper(pose_joint_angles, goal_exec_duration)
             print('Moving the gripper to',pose_joint_angles,'m from the TCP, during ',goal_exec_duration,'[s]. The full sequence execution is set to: ',full_sequence_flag)
             print('==================================')
+            future = slrobot_client.send_goal_gripper(pose_joint_angles, goal_exec_duration)
         else: 
             print('[ERROR]: The prim needs to be set either to "robot" or to "gripper" to control on of these two systems.')
             print('==================================')

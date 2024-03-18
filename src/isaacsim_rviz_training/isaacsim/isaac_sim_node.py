@@ -21,9 +21,11 @@ import numpy as np
 import usdrt.Usd
 from omni.isaac.core import SimulationContext
 from omni.isaac.core.utils import extensions, prims, rotations, stage, viewports
-from pxr import Gf
+import omni.kit.commands
+# CAMERA class
 from omni.isaac.sensor import Camera
-
+# URDF importer
+from omni.importer.urdf import _urdf
 
 
 ########################
@@ -32,16 +34,18 @@ from omni.isaac.sensor import Camera
 PKG_NAME = "isaacsim_rviz_training"
 # Get the package directory
 PKG_PATH = os.path.join(ament_index_python.packages.get_package_share_directory(PKG_NAME))
+# URDF path
+SPACELAB_ROBOT_URDF_PATH = "/description/urdf/spacelab_robot.urdf"
 # USD paths
 BACKGROUND_USD_PATH = "/description/usd/spacelab_scene.usd"
-SPACELAB_ROBOT_USD_PATH = "/description/usd/spacelab_robot.usd"
+SPACELAB_ROBOT_USD_PATH = "/description/usd/spacelab_robot/spacelab_robot.usd"
 # ISAAC SIM prim path
-BACKGROUND_STAGE_PATH = "/World/spacelab_scene"
-SPACELAB_ROBOT_STAGE_PATH = "/World/spacelab_robot"
-
+BACKGROUND_STAGE_PATH = "/spacelab_scene"
+SPACELAB_ROBOT_STAGE_PATH = "/spacelab_robot"
+ARTICULATED_ROOT_JOINT_PATH = SPACELAB_ROBOT_STAGE_PATH + "/world"
 
 ########################
-#   VAR DEFINITION   #
+#    VAR DEFINITION    #
 ########################
 r_camrot = 10.0
 x_camrot = 0.0
@@ -70,15 +74,55 @@ except KeyError:
 
 
 ########################
+#     URDF IMPORT      #
+########################
+# Acquire the URDF extension interface
+urdf_interface = _urdf.acquire_urdf_interface()
+# Set the settings in the import config
+import_config = _urdf.ImportConfig()
+import_config.merge_fixed_joints = False
+import_config.replace_cylinders_with_capsules = False
+import_config.fix_base = True
+import_config.import_inertia_tensor = False
+import_config.distance_scale = 1
+import_config.density = 0.0
+import_config.default_drive_type = _urdf.UrdfJointTargetType.JOINT_DRIVE_POSITION
+import_config.default_drive_strength = 10000 #1047.19751
+import_config.default_position_drive_damping = 1000 #52.35988
+# import_config.subdivision_scheme
+import_config.convex_decomp = False
+import_config.self_collision = False
+import_config.collision_from_visuals = False
+import_config.create_physics_scene = True
+import_config.make_instanceable = False
+# import_config.instanceable_usd_path = "./instanceable_meshes.usd"
+import_config.parse_mimic = False
+
+
+# Finally import the robot
+# result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config, dest_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH)
+
+# Optionally, you could also provide a `dest_path` parameter stage path to URDFParseAndImportFile,
+# which would import the robot on a new stage, in which case you'd need to add it to current stage as a reference:
+#   dest_path = "/path/to/dest.usd
+#   result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path="{}/{}".format(root_path, file_name),
+#   import_config=import_config,dest_path = dest_path)
+#   prim_path = omni.usd.get_stage_next_free_path(self.world.scene.stage, str(current_stage.GetDefaultPrim().GetPath()) + prim_path, False)
+#   robot_prim = self.world.scene.stage.OverridePrim(prim_path)
+#   robot_prim.GetReferences().AddReference(dest_path)
+# This is required for robot assets that contain texture, otherwise texture won't be loaded.
+
+
+########################
 #       SENSORS        #
 ########################
 assembly_view_cam = Camera(
-    prim_path="/World/assembly_view",
+    prim_path="/spacelab_scene/assembly_view",
     frequency=20,
     resolution=(256, 256),
 )
 rotating_view_cam = Camera(
-    prim_path="/World/rotating_view",
+    prim_path="/spacelab_scene/rotating_view",
     frequency=20,
     resolution=(10000, 10000),
 )
@@ -91,8 +135,8 @@ simulation_context = SimulationContext(stage_units_in_meters=1.0)
 
 # Preparing stage cameras
 viewports.set_camera_view(eye=np.array([2.0, 3.0, 2.0]), target=np.array([0.0, 0.0, 1.0]))
-viewports.set_camera_view(eye=np.array([0.8, 0.0, 3.0]), target=np.array([0.8, 0.0, 0.5]), camera_prim_path="/World/assembly_view")
-viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.array([0.0, 0.0, 1.0]), camera_prim_path="/World/rotating_view")
+viewports.set_camera_view(eye=np.array([0.8, 0.0, 3.0]), target=np.array([0.8, 0.0, 0.5]), camera_prim_path="/spacelab_scene/assembly_view")
+viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.array([0.0, 0.0, 1.0]), camera_prim_path="/spacelab_scene/rotating_view")
 
 
 ########################
@@ -102,13 +146,16 @@ viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.arr
 stage.add_reference_to_stage(PKG_PATH + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PATH )
 
 # Loading the spacelab robot USD
-prims.create_prim(
-    SPACELAB_ROBOT_STAGE_PATH,
-    "Xform",
-    position=np.array([0, 0, 0]),
-    orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
-    usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
-)
+# stage.add_reference_to_stage(PKG_PATH + SPACELAB_ROBOT_USD_PATH, SPACELAB_ROBOT_STAGE_PATH )
+result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
+
+# prims.create_prim(
+#     SPACELAB_ROBOT_STAGE_PATH,
+#     "Xform",
+#     position=np.array([0, 0, 0]),
+#     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
+#     usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
+# )
 simulation_app.update()
 
 
@@ -154,11 +201,11 @@ try:
             og.Controller.Keys.SET_VALUES: [
                 # Setting the /spacelab_robot target prim to Articulation Controller node
                 ("ArticulationController.inputs:usePath", True),
-                ("ArticulationController.inputs:robotPath", SPACELAB_ROBOT_STAGE_PATH),
+                ("ArticulationController.inputs:robotPath", ARTICULATED_ROOT_JOINT_PATH),
                 ("PublishJointState.inputs:topicName", "/isaac_joint_states"),
                 ("SubscribeJointState.inputs:topicName", "/joint_commands"),
-                ("PublishJointState.inputs:targetPrim", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
-                ("PublishTF.inputs:targetPrims", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
+                ("PublishJointState.inputs:targetPrim", [usdrt.Sdf.Path(ARTICULATED_ROOT_JOINT_PATH)]),
+                ("PublishTF.inputs:targetPrims", [usdrt.Sdf.Path(ARTICULATED_ROOT_JOINT_PATH)]),
                 ("Context.inputs:domain_id", ros_domain_id),
             ],
         }
@@ -186,7 +233,7 @@ while simulation_app.is_running():
     theta_camrot = theta_camrot + 0.01
     x_camrot = r_camrot*np.cos(theta_camrot*np.pi/180)
     y_camrot = r_camrot*np.sin(theta_camrot*np.pi/180)
-    viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.array([0.0, 0.0, 1.0]), camera_prim_path="/World/rotating_view")
+    viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.array([0.0, 0.0, 1.0]), camera_prim_path="/spacelab_scene/rotating_view")
 
 simulation_context.stop()
 simulation_app.close()

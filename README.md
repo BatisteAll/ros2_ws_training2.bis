@@ -298,3 +298,7 @@ https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Pluginlib.htm
 
 ### Setup your package structure
 https://rtw.stoglrobotics.de/master/guidelines/robot_package_structure.html
+
+### Usual Error Messages
+* `[isaac_sim_node.py-6] libGL error: failed to open /dev/dri/card0: Permission denied`
+    * restart the computer : `sudo reboot`

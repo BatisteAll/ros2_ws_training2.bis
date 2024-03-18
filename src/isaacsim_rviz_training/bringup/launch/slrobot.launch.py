@@ -29,7 +29,7 @@ import yaml
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import TimerAction, RegisterEventHandler
+from launch.actions import TimerAction, RegisterEventHandler, ExecuteProcess
 from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
 from launch.event_handlers import OnProcessStart, OnProcessExit
@@ -39,7 +39,7 @@ from launch.event_handlers import OnProcessStart, OnProcessExit
 #   CONST DEFINITION   #
 ########################
 PKG_NAME = "isaacsim_rviz_training"
-URDF_FILE = "spacelab_robot.urdf.xacro"
+URDF_FILE = "spacelab_robot.urdf"
 PARAM_FILE = 'slrobot_ros_params.yaml'
 ROBOT_NAMESPACE = "slrobot"
 
@@ -58,11 +58,21 @@ def generate_launch_description():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution(
-                [FindPackageShare(PKG_NAME), "description", "urdf", URDF_FILE]),
+            PathJoinSubstitution([FindPackageShare(PKG_NAME), "description", "urdf", URDF_FILE+".xacro"])
         ]
     )
-    
+
+    # Export the urdf.xacro in a .urdf file to keep a track of the used robot description
+    urdf_export = ExecuteProcess(
+        cmd=["xacro",
+             PathJoinSubstitution([FindPackageShare(PKG_NAME), "description", "urdf", URDF_FILE+".xacro"]),
+             "-o",
+             PathJoinSubstitution([get_package_share_directory(PKG_NAME), "description", "urdf", URDF_FILE])
+            #  PathJoinSubstitution([os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(get_package_share_directory(PKG_NAME))))), "src", PKG_NAME, "description", "urdf", URDF_FILE])
+             ],
+        output='screen'
+    )
+
 
     ########################
     #    ROBOT STATE PUB   #
@@ -192,6 +202,7 @@ def generate_launch_description():
     ########################
     nodes_to_start = [
         robot_state_publisher_node,
+        urdf_export,
         delayed_controller_manager,
         delayed_joint_state_broadcaster_controller,
         delayed_joint_trajectory_controller,

@@ -2,7 +2,7 @@
 <robot name="spacelab_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <!-- Definition of the lidar joint --> 
-    <joint name="joint_world.lidar" type="fixed">
+    <joint name="joint_world_lidar" type="fixed">
       <origin xyz="0.8 0.0 1.4" rpy="3.141592 0.0 3.141592" />
       <parent link="world"/>
       <child link="link_lidar"/>
@@ -19,18 +19,18 @@
       </inertial>
       <visual>
         <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/LIDAR.dae"/>
+        <mesh filename="package://${PKG_Name}/description/meshes/LIDAR.dae"/>
         </geometry>
       </visual>
       <collision>
         <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/LIDAR.dae"/>
+        <mesh filename="package://${PKG_Name}/description/meshes/LIDAR.dae"/>
         </geometry>
       </collision>
     </link>
 
     <!-- Definition of additional lidar joint that will be used to position the lidar focal--> 
-    <joint name="joint_lidar.laser" type="fixed">
+    <joint name="joint_lidar_laser" type="fixed">
       <origin xyz="0.0 0.0 0.0" rpy="0.0 -1.570796 0.0" />
       <parent link="link_lidar"/>
       <child link="link_laser"/>
