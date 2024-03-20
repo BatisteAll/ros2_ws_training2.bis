@@ -25,7 +25,8 @@
         ros2 run controller_manager spawner joint_trajectory_controller
 
     ros2 topic pub /joint_states sensor_msgs/msg/JointState "{name: ['joint_1_2', 'joint_2_3'], position: [0.5, 0.4], velocity: [1.0, 1.2], effort: [0.0, 0.0]}"
-    ros2 topic pub /joint_commands sensor_msgs/msg/JointState "{name: ['joint_EE_Lgripper'], position: [0.02], velocity: [1.0], effort: [0.0]}"
+    ros2 topic pub /joint_commands_trigger sensor_msgs/msg/JointState "{name: ['joint_EE_Lgripper'], position: [0.02], velocity: [1.0], effort: [0.0]}"
+    ros2 topic pub /joint_commands_trigger sensor_msgs/msg/JointState "{name: [], position: [], velocity: [], effort: []}"
 
 
 #### --- XXX --- Debug ---

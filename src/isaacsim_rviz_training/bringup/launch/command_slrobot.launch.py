@@ -49,7 +49,7 @@ TARGET_POSE_ROBOT_LIST = np.array([[0.0, -2.1817, 2.1817, -1.5708, -1.5708, 0.0]
                                   [-1.5708, -2.5, 2.5, -3.1415, 0.0, 0.0]])                 #init
 TARGET_POSE_GRIPPER_NAME_LIST = ['open', 'close']
 TARGET_POSE_GRIPPER_LIST = np.array([[0.0, 0.0],     #open
-                                    [-0.02, 0.02]])       #close
+                                     [-0.02, 0.02]]) #close
 
 
 

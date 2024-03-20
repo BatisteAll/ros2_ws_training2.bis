@@ -203,7 +203,7 @@ try:
                 ("ArticulationController.inputs:usePath", True),
                 ("ArticulationController.inputs:robotPath", ARTICULATED_ROOT_JOINT_PATH),
                 ("PublishJointState.inputs:topicName", "/isaac_joint_states"),
-                ("SubscribeJointState.inputs:topicName", "/joint_commands"),
+                ("SubscribeJointState.inputs:topicName", "/joint_commands_trigger"),
                 ("PublishJointState.inputs:targetPrim", [usdrt.Sdf.Path(ARTICULATED_ROOT_JOINT_PATH)]),
                 ("PublishTF.inputs:targetPrims", [usdrt.Sdf.Path(ARTICULATED_ROOT_JOINT_PATH)]),
                 ("Context.inputs:domain_id", ros_domain_id),

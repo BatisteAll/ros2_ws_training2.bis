@@ -185,17 +185,17 @@ def generate_launch_description():
     ########################
     #      RVIZ NODE       #
     ########################
-    # rviz_config_file = PathJoinSubstitution(
-    #     [FindPackageShare("isaacsim_rviz_training"), "config", "example.rviz"]
-    # )
+    rviz_config_file = PathJoinSubstitution(
+        [FindPackageShare("isaacsim_rviz_training"), "bringup", "config", "example.rviz"]
+    )
 
-    # rviz_node = Node(
-    #     package="rviz2",
-    #     executable="rviz2",
-    #     name="rviz2",
-    #     output={'both': 'log'},
-    #     arguments=["-d", rviz_config_file],
-    # )
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        output={'both': 'log'},
+        arguments=["-d", rviz_config_file],
+    )
 
     ########################
     #      NODES CALL      #
@@ -208,7 +208,7 @@ def generate_launch_description():
         delayed_joint_trajectory_controller,
         delayed_controlMsg2jointMsg_node,
         delayed_isaacsim_node,
-        # rviz_node,
+        rviz_node,
     ]
 
 
