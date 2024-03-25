@@ -5,6 +5,9 @@
   <xacro:include filename="inertial_macros.xacro"/>
 
   <!-- Add some parameters that will be post processed by xacro and replaced in the file -->
+  <xacro:property name="PKG_Name" value="isaacsim_rviz_training" />
+
+  <!-- Add some parameters that will be post processed by xacro and replaced in the file -->
   <xacro:property name="EE_mass" value="1.0" /> <!-- mass of the end effector -->
   <xacro:property name="EE_x_position" value="0.0" /> <!-- x position of the end effector -->
   <xacro:property name="EE_y_position" value="0.0845" /> <!-- y position of the end effector -->

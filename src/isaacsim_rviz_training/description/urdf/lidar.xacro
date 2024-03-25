@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <robot name="spacelab_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- Add some parameters that will be post processed by xacro and replaced in the file -->
+  <xacro:property name="PKG_Name" value="isaacsim_rviz_training" />
+  
     <!-- Definition of the lidar joint --> 
     <joint name="joint_world_lidar" type="fixed">
       <origin xyz="0.8 0.0 1.4" rpy="3.141592 0.0 3.141592" />

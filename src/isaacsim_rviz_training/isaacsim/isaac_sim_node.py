@@ -27,6 +27,8 @@ from omni.isaac.sensor import Camera
 # URDF importer
 from omni.importer.urdf import _urdf
 
+from pxr import Gf
+
 
 ########################
 #   CONST DEFINITION   #
@@ -38,7 +40,7 @@ PKG_PATH = os.path.join(ament_index_python.packages.get_package_share_directory(
 SPACELAB_ROBOT_URDF_PATH = "/description/urdf/spacelab_robot.urdf"
 # USD paths
 BACKGROUND_USD_PATH = "/description/usd/spacelab_scene.usd"
-SPACELAB_ROBOT_USD_PATH = "/description/usd/spacelab_robot/spacelab_robot.usd"
+SPACELAB_ROBOT_USD_PATH = "/description/usd/spacelab_robot_without_mimic.usd"
 # ISAAC SIM prim path
 BACKGROUND_STAGE_PATH = "/spacelab_scene"
 SPACELAB_ROBOT_STAGE_PATH = "/spacelab_robot"
@@ -99,20 +101,6 @@ import_config.make_instanceable = False
 import_config.parse_mimic = False
 
 
-# Finally import the robot
-# result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config, dest_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH)
-
-# Optionally, you could also provide a `dest_path` parameter stage path to URDFParseAndImportFile,
-# which would import the robot on a new stage, in which case you'd need to add it to current stage as a reference:
-#   dest_path = "/path/to/dest.usd
-#   result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path="{}/{}".format(root_path, file_name),
-#   import_config=import_config,dest_path = dest_path)
-#   prim_path = omni.usd.get_stage_next_free_path(self.world.scene.stage, str(current_stage.GetDefaultPrim().GetPath()) + prim_path, False)
-#   robot_prim = self.world.scene.stage.OverridePrim(prim_path)
-#   robot_prim.GetReferences().AddReference(dest_path)
-# This is required for robot assets that contain texture, otherwise texture won't be loaded.
-
-
 ########################
 #       SENSORS        #
 ########################
@@ -146,7 +134,6 @@ viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.arr
 stage.add_reference_to_stage(PKG_PATH + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PATH )
 
 # Loading the spacelab robot USD
-# stage.add_reference_to_stage(PKG_PATH + SPACELAB_ROBOT_USD_PATH, SPACELAB_ROBOT_STAGE_PATH )
 result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
 
 # prims.create_prim(
@@ -156,7 +143,7 @@ result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_pa
 #     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
 #     usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
 # )
-simulation_app.update()
+# simulation_app.update()
 
 
 ########################
