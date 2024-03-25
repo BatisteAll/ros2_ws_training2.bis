@@ -26,8 +26,9 @@ import omni.kit.commands
 from omni.isaac.sensor import Camera
 # URDF importer
 from omni.importer.urdf import _urdf
-
 from pxr import Gf
+# Physics Tools
+from pxr import Usd
 
 
 ########################
@@ -134,16 +135,27 @@ viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.arr
 stage.add_reference_to_stage(PKG_PATH + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PATH )
 
 # Loading the spacelab robot USD
-# result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
+result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
+# Remove Articulation root from base-link and set it to ancestor
+# https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/extensions/ux/source/omni.physx.commands/docs/index.html
+# https://docs.omniverse.nvidia.com/kit/docs/pxr-usd-api/latest/pxr/Usd.html
+omni.kit.commands.execute("RemovePhysicsComponent",
+	usd_prim=Usd.Prim(</spacelab_robot/world>),
+	component="PhysicsArticulationRootAPI",
+	multiple_api_token=None)
+omni.kit.commands.execute("AddPhysicsComponent",
+	usd_prim=Usd.Prim("/spacelab_robot"),
+	component="PhysicsArticulationRootAPI")
+
 
 #Uncomment this line and comment the line above to load the usd instead of the urdf
-prims.create_prim(
-    SPACELAB_ROBOT_STAGE_PATH,
-    "Xform",
-    position=np.array([0, 0, 0]),
-    orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
-    usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
-)
+# prims.create_prim(
+#     SPACELAB_ROBOT_STAGE_PATH,
+#     "Xform",
+#     position=np.array([0, 0, 0]),
+#     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
+#     usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
+# )
 
 simulation_app.update()
 
