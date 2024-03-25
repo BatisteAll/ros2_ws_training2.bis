@@ -24,6 +24,7 @@ from omni.isaac.core.utils import extensions, prims, rotations, stage, viewports
 from pxr import Gf
 from omni.isaac.sensor import Camera
 # URDF importer
+import omni.kit.commands
 from omni.importer.urdf import _urdf
 
 
@@ -37,8 +38,8 @@ PKG_PATH = os.path.join(ament_index_python.packages.get_package_share_directory(
 BACKGROUND_USD_PATH = "/description/usd/spacelab_scene.usd"
 SPACELAB_ROBOT_USD_PATH = "/description/usd/without_mimic.usd"
 # ISAAC SIM prim path
-BACKGROUND_STAGE_PATH = "/World/spacelab_scene"
-SPACELAB_ROBOT_STAGE_PATH = "/World/spacelab_robot"
+BACKGROUND_STAGE_PATH = "/spacelab_scene"
+SPACELAB_ROBOT_STAGE_PATH = "/spacelab_robot"
 # URDF path
 SPACELAB_ROBOT_URDF_PATH = "/description/urdf/spacelab_robot.urdf"
 
@@ -129,13 +130,16 @@ viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.arr
 stage.add_reference_to_stage(PKG_PATH + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PATH )
 
 # Loading the spacelab robot USD
-prims.create_prim(
-    SPACELAB_ROBOT_STAGE_PATH,
-    "Xform",
-    position=np.array([0, 0, 0]),
-    orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
-    usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
-)
+result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
+
+# Loading the spacelab robot USD
+# prims.create_prim(
+#     SPACELAB_ROBOT_STAGE_PATH,
+#     "Xform",
+#     position=np.array([0, 0, 0]),
+#     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
+#     usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
+# )
 simulation_app.update()
 
 
