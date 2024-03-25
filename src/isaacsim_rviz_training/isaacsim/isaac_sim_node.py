@@ -23,7 +23,8 @@ from omni.isaac.core import SimulationContext
 from omni.isaac.core.utils import extensions, prims, rotations, stage, viewports
 from pxr import Gf
 from omni.isaac.sensor import Camera
-
+# URDF importer
+from omni.importer.urdf import _urdf
 
 
 ########################
@@ -34,11 +35,12 @@ PKG_NAME = "isaacsim_rviz_training"
 PKG_PATH = os.path.join(ament_index_python.packages.get_package_share_directory(PKG_NAME))
 # USD paths
 BACKGROUND_USD_PATH = "/description/usd/spacelab_scene.usd"
-SPACELAB_ROBOT_USD_PATH = "/description/usd/spacelab_robot.usd"
+SPACELAB_ROBOT_USD_PATH = "/description/usd/with_mimic.usd"
 # ISAAC SIM prim path
 BACKGROUND_STAGE_PATH = "/World/spacelab_scene"
 SPACELAB_ROBOT_STAGE_PATH = "/World/spacelab_robot"
-
+# URDF path
+SPACELAB_ROBOT_URDF_PATH = "/description/urdf/spacelab_robot.urdf"
 
 ########################
 #   VAR DEFINITION   #
@@ -67,6 +69,31 @@ except ValueError:
 except KeyError:
     print("ROS_DOMAIN_ID environment variable is not set. Setting value to 0")
     ros_domain_id = 0
+
+########################
+#     URDF IMPORT      #
+########################
+# Acquire the URDF extension interface
+urdf_interface = _urdf.acquire_urdf_interface()
+# Set the settings in the import config
+import_config = _urdf.ImportConfig()
+import_config.merge_fixed_joints = False
+import_config.replace_cylinders_with_capsules = False
+import_config.fix_base = True
+import_config.import_inertia_tensor = False
+import_config.distance_scale = 1
+import_config.density = 0.0
+import_config.default_drive_type = _urdf.UrdfJointTargetType.JOINT_DRIVE_POSITION
+import_config.default_drive_strength = 10000 #1047.19751
+import_config.default_position_drive_damping = 1000 #52.35988
+# import_config.subdivision_scheme
+import_config.convex_decomp = False
+import_config.self_collision = False
+import_config.collision_from_visuals = False
+import_config.create_physics_scene = True
+import_config.make_instanceable = False
+# import_config.instanceable_usd_path = "./instanceable_meshes.usd"
+import_config.parse_mimic = False
 
 
 ########################
