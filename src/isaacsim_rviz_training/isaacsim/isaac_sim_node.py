@@ -37,10 +37,10 @@ PKG_NAME = "isaacsim_rviz_training"
 # Get the package directory
 PKG_PATH = os.path.join(ament_index_python.packages.get_package_share_directory(PKG_NAME))
 # URDF path
-SPACELAB_ROBOT_URDF_PATH = "/description/urdf/test.urdf"
+SPACELAB_ROBOT_URDF_PATH = "/description/urdf/spacelab_robot.urdf"
 # USD paths
 BACKGROUND_USD_PATH = "/description/usd/spacelab_scene.usd"
-SPACELAB_ROBOT_USD_PATH = "/description/usd/spacelab_robot_without_mimic.usd"
+SPACELAB_ROBOT_USD_PATH = "/description/usd/test.usd"
 # ISAAC SIM prim path
 BACKGROUND_STAGE_PATH = "/spacelab_scene"
 SPACELAB_ROBOT_STAGE_PATH = "/spacelab_robot"
@@ -134,17 +134,18 @@ viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.arr
 stage.add_reference_to_stage(PKG_PATH + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PATH )
 
 # Loading the spacelab robot USD
-result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
+# result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
 
 #Uncomment this line and comment the line above to load the usd instead of the urdf
-# prims.create_prim(
-#     SPACELAB_ROBOT_STAGE_PATH,
-#     "Xform",
-#     position=np.array([0, 0, 0]),
-#     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
-#     usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
-# )
-# simulation_app.update()
+prims.create_prim(
+    SPACELAB_ROBOT_STAGE_PATH,
+    "Xform",
+    position=np.array([0, 0, 0]),
+    orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
+    usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
+)
+
+simulation_app.update()
 
 
 ########################

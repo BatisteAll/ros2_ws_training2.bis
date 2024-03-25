@@ -42,9 +42,9 @@
     <visual>
       <geometry>
         <!-- it possible to define the absolute path of the model 
-        <mesh filename="file:///home/spacefactory/ros2_ws_training/src/isaacsim_rviz_training/models/meshes/Base.dae"/> -->
+        <mesh filename="file:///home/spacefactory/ros2_ws_training/src/isaacsim_rviz_training/description/meshes/Base.dae"/> -->
         <!-- but it's prefered to define the path relatively to the package -->
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Base.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Base.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -52,7 +52,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Base.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Base.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -74,7 +74,7 @@
   <link name="link_2">
     <visual>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Shoulder.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Shoulder.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -82,7 +82,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Shoulder.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Shoulder.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -104,7 +104,7 @@
   <link name="link_3">
     <visual>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/UpperArm.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/UpperArm.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -112,7 +112,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/UpperArm.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/UpperArm.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -134,7 +134,7 @@
   <link name="link_4">
     <visual>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Forearm.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Forearm.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -142,7 +142,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Forearm.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Forearm.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -164,7 +164,7 @@
   <link name="link_5">
     <visual>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Wrist1.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Wrist1.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -172,7 +172,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Wrist1.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Wrist1.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -194,7 +194,7 @@
   <link name="link_6">
     <visual>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Wrist2.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Wrist2.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -202,7 +202,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Wrist2.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Wrist2.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -224,7 +224,7 @@
   <link name="link_7">
     <visual>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Wrist3.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Wrist3.dae"/>
       </geometry>
       <material name="LightGrey">
         <color rgba="0.7 0.7 0.7 1.0"/>
@@ -232,7 +232,7 @@
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/Wrist3.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/Wrist3.dae"/>
       </geometry>
     </collision>
     <inertial>
@@ -255,12 +255,12 @@
   <link name="link_EE">
     <visual>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/END_EFFECTOR.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/END_EFFECTOR.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/END_EFFECTOR.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/END_EFFECTOR.dae"/>
       </geometry>
     </collision>
     <!-- <inertial>
@@ -305,7 +305,7 @@
     <child link="link_Lgripper"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit effort="500" lower="-0.02" upper="0.02" velocity="0.05"/>
+    <limit effort="500" lower="-0.02" upper="0.0" velocity="0.05"/>
     <dynamics damping="60.0" friction="4.0"/>
   </joint>
   <!-- Define the end effector gripper right finger -->
@@ -343,18 +343,37 @@
     <child link="link_Rgripper"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit effort="500" lower="-0.02" upper="0.02" velocity="0.05"/>
+    <limit effort="500" lower="0.0" upper="0.02" velocity="0.05"/>
     <dynamics damping="60.0" friction="4.0"/>
     <!-- Mimic the movement of joint_EE_Lgripper -->
-    <!-- <mimic joint="joint_EE_Lgripper" multiplier="-1" offset="0" /> -->
+    <mimic joint="joint_EE_Lgripper" multiplier="-1" offset="0"/>
   </joint>
   <!-- The next joint and links are just for debug purposes related to the "_mimic"
    suffix added by the gazebo ros2 control plugin at the end of the joint -->
-  <!-- <joint name="joint_EE_Rgripper_mimic" type="fixed">
-    <parent link="world" />
-    <child link="random" />
+  <joint name="joint_EE_Rgripper_mimic" type="fixed">
+    <parent link="world"/>
+    <child link="random"/>
   </joint>
-  <link name="random"/> -->
+  <link name="random"/>
+  <gazebo reference="link_Lgripper">
+    <!-- contact sensor -->
+    <sensor name="end_effector_sensor" type="contact">
+      <selfCollide>true</selfCollide>
+      <alwaysOn>true</alwaysOn>
+      <update_rate>50</update_rate>
+      <contact>
+        <collision>link_Lgripper_collision</collision>
+      </contact>
+      <!-- gazebo plugin -->
+      <plugin filename="libgazebo_ros_bumper.so" name="gazebo_ros_bumper_sensor">
+        <ros>
+          <namespace>contact_sensor</namespace>
+          <remapping>bumper_states:=bumper_link_Lgripper</remapping>
+        </ros>
+        <frame_name>link_Lgripper</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
   <!-- Definition of the lidar joint -->
   <joint name="joint_world.lidar" type="fixed">
     <origin rpy="3.141592 0.0 3.141592" xyz="0.8 0.0 1.4"/>
@@ -370,12 +389,12 @@
     </inertial>
     <visual>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/LIDAR.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/LIDAR.dae"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/LIDAR.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/LIDAR.dae"/>
       </geometry>
     </collision>
   </link>
@@ -440,12 +459,12 @@
   <link name="link_cam3D">
     <collision>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/CAMERA.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/CAMERA.dae"/>
       </geometry>
     </collision>
     <visual>
       <geometry>
-        <mesh filename="package://isaacsim_rviz_training/models/meshes/CAMERA.dae"/>
+        <mesh filename="package://isaacsim_rviz_training/description/meshes/CAMERA.dae"/>
       </geometry>
     </visual>
     <inertial>
@@ -501,86 +520,84 @@
       </plugin>
     </sensor>
   </gazebo>
-  <!-- ROBOT PLUGIN -->
+  <!-- Definition of the parameters associated to ros2_control -->
   <ros2_control name="SpacelabRobotPositionningSystem" type="system">
     <hardware>
       <plugin>isaacsim_rviz_training/DOF6BOTSystem</plugin>
-      <!-- <plugin>hardware_interface/JointCommandInterface</plugin> -->
     </hardware>
     <joint name="joint_1_2">
       <!-- Definition of the command interface-->
       <command_interface name="position">
-        <param name="min">{-2*pi}</param>
-        <param name="max">{2*pi}</param>
+        <!-- Definition of joints position limits-->
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
       </command_interface>
       <!-- Definition of the state interfaces-->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <state_interface name="effort"/>
     </joint>
     <joint name="joint_2_3">
       <command_interface name="position">
-        <param name="min">{-2*pi}</param>
-        <param name="max">{2*pi}</param>
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
       </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <state_interface name="effort"/>
     </joint>
     <joint name="joint_3_4">
       <command_interface name="position">
-        <param name="min">{-2*pi}</param>
-        <param name="max">{2*pi}</param>
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
       </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <state_interface name="effort"/>
     </joint>
     <joint name="joint_4_5">
       <command_interface name="position">
-        <param name="min">{-2*pi}</param>
-        <param name="max">{2*pi}</param>
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
       </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <state_interface name="effort"/>
     </joint>
     <joint name="joint_5_6">
       <command_interface name="position">
-        <param name="min">{-2*pi}</param>
-        <param name="max">{2*pi}</param>
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
       </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <state_interface name="effort"/>
     </joint>
     <joint name="joint_6_7">
       <command_interface name="position">
-        <param name="min">{-2*pi}</param>
-        <param name="max">{2*pi}</param>
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
       </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <state_interface name="effort"/>
     </joint>
     <joint name="joint_EE_Lgripper">
       <command_interface name="position">
-        <param name="min">-0.02</param>
+        <param name="min">0.0</param>
         <param name="max">0.02</param>
       </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <state_interface name="effort"/>
     </joint>
     <joint name="joint_EE_Rgripper">
-      <command_interface name="position">
-        <param name="min">-0.02</param>
-        <param name="max">0.02</param>
-      </command_interface>
+      <param name="mimic">joint_EE_Lgripper</param>
+      <param name="multiplier">-1</param>
+      <command_interface name="position"/>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
+      <state_interface name="effort"/>
     </joint>
-    <!-- Force & Torque Sensor definition -->
-    <sensor name="tcp_fts_sensor">
-      <state_interface name="force.x"/>
-      <state_interface name="force.y"/>
-      <state_interface name="force.z"/>
-      <state_interface name="torque.x"/>
-      <state_interface name="torque.y"/>
-      <state_interface name="torque.z"/>
-    </sensor>
   </ros2_control>
 </robot>
