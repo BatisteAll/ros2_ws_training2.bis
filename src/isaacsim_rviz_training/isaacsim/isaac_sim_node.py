@@ -37,7 +37,7 @@ PKG_NAME = "isaacsim_rviz_training"
 # Get the package directory
 PKG_PATH = os.path.join(ament_index_python.packages.get_package_share_directory(PKG_NAME))
 # URDF path
-SPACELAB_ROBOT_URDF_PATH = "/description/urdf/spacelab_robot.urdf"
+SPACELAB_ROBOT_URDF_PATH = "/description/urdf/test.urdf"
 # USD paths
 BACKGROUND_USD_PATH = "/description/usd/spacelab_scene.usd"
 SPACELAB_ROBOT_USD_PATH = "/description/usd/spacelab_robot_without_mimic.usd"
@@ -136,6 +136,7 @@ stage.add_reference_to_stage(PKG_PATH + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PA
 # Loading the spacelab robot USD
 result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
 
+#Uncomment this line and comment the line above to load the usd instead of the urdf
 # prims.create_prim(
 #     SPACELAB_ROBOT_STAGE_PATH,
 #     "Xform",
