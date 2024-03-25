@@ -35,7 +35,7 @@ PKG_NAME = "isaacsim_rviz_training"
 PKG_PATH = os.path.join(ament_index_python.packages.get_package_share_directory(PKG_NAME))
 # USD paths
 BACKGROUND_USD_PATH = "/description/usd/spacelab_scene.usd"
-SPACELAB_ROBOT_USD_PATH = "/description/usd/with_mimic.usd"
+SPACELAB_ROBOT_USD_PATH = "/description/usd/without_mimic.usd"
 # ISAAC SIM prim path
 BACKGROUND_STAGE_PATH = "/World/spacelab_scene"
 SPACELAB_ROBOT_STAGE_PATH = "/World/spacelab_robot"
