@@ -1,0 +1,62 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000  # Hz
+    # use_sim_time: true
+    
+    # Definition of the joint state broadcaster controller  
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    
+    # Definition of the joint trajectory controller
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+
+joint_trajectory_controller:
+  ros__parameters:   
+      # Definition of all the controlled joints 
+      joints:
+        - joint_1_2
+        - joint_2_3
+        - joint_3_4
+        - joint_4_5
+        - joint_5_6
+        - joint_6_7
+        - joint_EE_Lgripper
+        - joint_EE_Rgripper
+        
+      command_interfaces:
+        - position
+  
+      state_interfaces:
+        - position
+        - velocity
+
+      state_publish_rate: 50.0 # Defaults to 50Hz
+      action_monitor_rate: 20.0 # Defaults to 20Hz
+
+      allow_partial_joints_goal: true # Defaults to false
+      hardware_state_has_offset: true
+      deduce_states_from_derivatives: true
+  
+      constraints:
+        stopped_velocity_tolerance: 0.01 # Defaults to 0.01
+        goal_time: 0.0 # Defaults to 0.0 (start immediately)
+
+
+
+command_slrobot:
+  ros__parameters:
+    actuated_robot_joints: 
+      - joint_1_2
+      - joint_2_3
+      - joint_3_4
+      - joint_4_5
+      - joint_5_6
+      - joint_6_7
+    actuated_gripper_joints: 
+      - joint_EE_Lgripper
+      - joint_EE_Rgripper
+
+

@@ -1,0 +1,121 @@
+[0.166s] Invoking command in '/home/spacefactory5/workspaces/ros2_ws_training2.bis/build/isaacsim_rviz_training': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/spacefactory5/workspaces/ros2_ws_training2.bis/build/isaacsim_rviz_training -- -j20 -l20
+[0.323s] [ 50%] [32mBuilding CXX object CMakeFiles/isaacsim_rviz_training.dir/hardware/dof6bot_hardware_interface.cpp.o[0m
+[2.404s] [100%] [32m[1mLinking CXX shared library libisaacsim_rviz_training.so[0m
+[2.566s] [100%] Built target isaacsim_rviz_training
+[2.578s] Invoked command in '/home/spacefactory5/workspaces/ros2_ws_training2.bis/build/isaacsim_rviz_training' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/spacefactory5/workspaces/ros2_ws_training2.bis/build/isaacsim_rviz_training -- -j20 -l20
+[2.775s] Invoking command in '/home/spacefactory5/workspaces/ros2_ws_training2.bis/build/isaacsim_rviz_training': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/spacefactory5/workspaces/ros2_ws_training2.bis/build/isaacsim_rviz_training
+[2.790s] -- Install configuration: ""
+[2.791s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/isaacsim_rviz_training.xml
+[2.791s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//bringup
+[2.791s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//bringup/launch
+[2.791s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//bringup/launch/slrobot.launch.py
+[2.791s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//bringup/launch/command_slrobot.launch.py
+[2.791s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//bringup/config
+[2.791s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//bringup/config/example.rviz
+[2.791s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//bringup/config/slrobot_ros_params.yaml
+[2.791s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//controller
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//controller/helper_functions
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//controller/helper_functions/load_ros_parameters.py
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//controller/command_slrobot.py
+[2.792s] -- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//controller/controlMsg2jointMsg_pubSub.py
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/spacelab_robot (3rd copy).usd
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/default_environment.usd
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/spacelab_scene2.usd
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/.thumbs
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/.thumbs/256x256
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/.thumbs/256x256/spacelab_scene1.usd.png
+[2.792s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/.thumbs/256x256/spacelab_robot (copy).usd.png
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/.thumbs/256x256/spacelab_robot_test.usd.png
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/.thumbs/256x256/spacelab_scene.usd.png
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/.thumbs/256x256/spacelab_robot.usd.png
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/.thumbs/256x256/spacelab_scene2.usd.png
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/.thumbs/256x256/spacelab_robot (3rd copy).usd.png
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/spacelab_scene_robot.usd
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/spacelab_robot.usd
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/spacelab_scene.usd
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/spacelab_robot (another copy).usd
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/spacelab_robot_test.usd
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/usd/spacelab_robot (copy).usd
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/urdf
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/urdf/spacelab_robot
+[2.793s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/urdf/spacelab_robot/spacelab_robot.usd
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/urdf/gripper.xacro
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/urdf/robot_core.xacro
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/urdf/camera.xacro
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/urdf/lidar.xacro
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/urdf/inertial_macros.xacro
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/urdf/spacelab_robot.urdf.xacro
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/workbenches.stp
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/workbenches.usd
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/part2.stp
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/part3.stp
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/part4.stp
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/part.usd
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/part4.usd
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/part3.usd
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/parts_square.usd
+[2.794s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/part2.usd
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/part.stp
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/stp/parts_square.stp
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/LIDAR_STRUCTURE.dae
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/Shoulder.dae
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/Wrist1.dae
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/Wrist3.dae
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/LIDAR.dae
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/CAMERA.dae
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/Forearm.dae
+[2.795s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/RADICART_FULL.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/WORKBENCH.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/ROBOT_STRUCTURE.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/UpperArm.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/STORAGE.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/PART.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/Wrist2.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/END_EFFECTOR.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/RADICART_FULL_STRUCTURE.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/RADICART_FULL_PARTS.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/meshes/Base.dae
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/ros2_control
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/ros2_control/ros2_control_with_mimic.xacro
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/ros2_control/ros2_control_test_two_hw_component.xacro
+[2.796s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//description/ros2_control/ros2_control.xacro
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//hardware
+[2.797s] -- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//hardware/dof6bot_hardware_interface.cpp
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//hardware/include
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//hardware/include/isaacsim_rviz_training
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//hardware/include/isaacsim_rviz_training/dof6bot_hardware_interface.hpp
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//isaacsim
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training//isaacsim/isaac_sim_node.py
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/lib/isaacsim_rviz_training/command_slrobot.py
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/lib/isaacsim_rviz_training/isaac_sim_node.py
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/lib/isaacsim_rviz_training/load_ros_parameters.py
+[2.797s] -- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/lib/isaacsim_rviz_training/controlMsg2jointMsg_pubSub.py
+[2.797s] -- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/lib/libisaacsim_rviz_training.so
+[2.797s] -- Set non-toolchain portion of runtime path of "/home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/lib/libisaacsim_rviz_training.so" to ""
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/environment/library_path.sh
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/environment/library_path.dsv
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/ament_index/resource_index/package_run_dependencies/isaacsim_rviz_training
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/ament_index/resource_index/parent_prefix_path/isaacsim_rviz_training
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/environment/ament_prefix_path.sh
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/environment/ament_prefix_path.dsv
+[2.797s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/environment/path.sh
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/environment/path.dsv
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/local_setup.bash
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/local_setup.sh
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/local_setup.zsh
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/local_setup.dsv
+[2.798s] -- Installing: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/package.dsv
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/ament_index/resource_index/packages/isaacsim_rviz_training
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/ament_index/resource_index/hardware_interface__pluginlib__plugin/isaacsim_rviz_training
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/cmake/isaacsim_rviz_trainingExport.cmake
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/cmake/isaacsim_rviz_trainingExport-noconfig.cmake
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/cmake/ament_cmake_export_targets-extras.cmake
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/cmake/ament_cmake_export_dependencies-extras.cmake
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/cmake/isaacsim_rviz_trainingConfig.cmake
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/cmake/isaacsim_rviz_trainingConfig-version.cmake
+[2.798s] -- Up-to-date: /home/spacefactory5/workspaces/ros2_ws_training2.bis/install/isaacsim_rviz_training/share/isaacsim_rviz_training/package.xml
+[2.799s] Invoked command in '/home/spacefactory5/workspaces/ros2_ws_training2.bis/build/isaacsim_rviz_training' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/spacefactory5/workspaces/ros2_ws_training2.bis/build/isaacsim_rviz_training
