@@ -28,7 +28,7 @@ from omni.isaac.sensor import Camera
 from omni.importer.urdf import _urdf
 from pxr import Gf
 # Physics Tools
-from pxr import Usd
+from pxr import PhysxSchema, Usd, Sdf, UsdPhysics
 
 
 ########################
@@ -41,11 +41,11 @@ PKG_PATH = os.path.join(ament_index_python.packages.get_package_share_directory(
 SPACELAB_ROBOT_URDF_PATH = "/description/urdf/spacelab_robot.urdf"
 # USD paths
 BACKGROUND_USD_PATH = "/description/usd/spacelab_scene.usd"
-SPACELAB_ROBOT_USD_PATH = "/description/usd/test.usd"
+SPACELAB_ROBOT_USD_PATH = "/description/usd/test.usd"       # ---> needed only if using robot usd import instead of urdf
 # ISAAC SIM prim path
 BACKGROUND_STAGE_PATH = "/spacelab_scene"
 SPACELAB_ROBOT_STAGE_PATH = "/spacelab_robot"
-ARTICULATED_ROOT_JOINT_PATH = SPACELAB_ROBOT_STAGE_PATH + "/world"
+ARTICULATED_ROOT_JOINT_PATH = SPACELAB_ROBOT_STAGE_PATH
 
 ########################
 #    VAR DEFINITION    #
@@ -93,7 +93,7 @@ import_config.default_drive_type = _urdf.UrdfJointTargetType.JOINT_DRIVE_POSITIO
 import_config.default_drive_strength = 10000 #1047.19751
 import_config.default_position_drive_damping = 1000 #52.35988
 # import_config.subdivision_scheme
-import_config.convex_decomp = False
+import_config.convex_decomp = False                                                  # facetization method from visual mesh to create a collision mesh
 import_config.self_collision = False
 import_config.collision_from_visuals = False
 import_config.create_physics_scene = True
@@ -129,26 +129,86 @@ viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.arr
 
 
 ########################
-#     STAGE LOADING    #
+#     SCENE LOADING    #
 ########################
 # Loading the environment
 stage.add_reference_to_stage(PKG_PATH + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PATH )
 
-# Loading the spacelab robot USD
+
+########################
+#     ROBOT LOADING    #
+########################
+# Loading the spacelab robot URDF
+# https://docs.omniverse.nvidia.com/kit/docs/omniverse-urdf-importer/latest/source/extensions/omni.importer.urdf/docs/index.html#urdf-import-commands
 result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
+
 # Remove Articulation root from base-link and set it to ancestor
-# https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/extensions/ux/source/omni.physx.commands/docs/index.html
-# https://docs.omniverse.nvidia.com/kit/docs/pxr-usd-api/latest/pxr/Usd.html
-omni.kit.commands.execute("RemovePhysicsComponent",
-	usd_prim=Usd.Prim(</spacelab_robot/world>),
-	component="PhysicsArticulationRootAPI",
+# Indeed, as we are in a multi articulation chain (robot and gripper) we need the articulation root set to the ancestor of the chains
+# Doc for PhysicsComponent: https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/extensions/ux/source/omni.physx.commands/docs/index.html
+# Doc for GetPrimPath: https://docs.omniverse.nvidia.com/kit/docs/pxr-usd-api/latest/pxr/Usd.html
+
+# Get the stage reference
+context = omni.usd.get_context()
+current_stage = context.get_stage()
+
+# Remove the articulation root from the base link
+omni.kit.commands.execute('RemovePhysicsComponent',
+	usd_prim=current_stage.GetPrimAtPath('/spacelab_robot/world'),
+	component='PhysicsArticulationRootAPI',
 	multiple_api_token=None)
+omni.kit.commands.execute('UnapplyAPISchema',
+	api=UsdPhysics.ArticulationRootAPI,
+	prim=current_stage.GetPrimAtPath('/spacelab_robot/world'),
+	api_prefix=None,
+	multiple_api_token=None)
+omni.kit.commands.execute('UnapplyAPISchema',
+	api=PhysxSchema.PhysxArticulationAPI,
+	prim=current_stage.GetPrimAtPath('/spacelab_robot/world'),
+	api_prefix=None,
+	multiple_api_token=None)
+
+# Add the articulation root to the ancestor of the base link
 omni.kit.commands.execute("AddPhysicsComponent",
-	usd_prim=Usd.Prim("/spacelab_robot"),
+	usd_prim=current_stage.GetPrimAtPath('/spacelab_robot'),
 	component="PhysicsArticulationRootAPI")
+omni.kit.commands.execute('ApplyAPISchema',
+	api=UsdPhysics.ArticulationRootAPI,
+	prim=current_stage.GetPrimAtPath('/spacelab_robot'))
+omni.kit.commands.execute('ApplyAPISchema',
+	api=PhysxSchema.PhysxArticulationAPI,
+	prim=current_stage.GetPrimAtPath('/spacelab_robot'))
+
+# Tune the articulation root api
+omni.kit.commands.execute('ChangeProperty',
+	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:enabledSelfCollisions'),
+	value=None,
+	prev=True)
+omni.kit.commands.execute('ChangeProperty',
+	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:solverPositionIterationCount'),
+	value=64)
+omni.kit.commands.execute('ChangeProperty',
+	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:solverVelocityIterationCount'),
+	value=64)
+
+# omni.kit.commands.execute('SetRelationshipTargets',
+# 	relationship=current_stage.GetPrimAtPath('/spacelab_robot/root_joint').GetRelationship('physics:body1'),
+# 	targets=[])
+# omni.kit.commands.execute('SetRelationshipTargets',
+# 	relationship=current_stage.GetPrimAtPath('/spacelab_robot/root_joint').GetRelationship('physics:body0'),
+# 	targets=[Sdf.Path('/spacelab_robot/world')])
 
 
-#Uncomment this line and comment the line above to load the usd instead of the urdf
+# Set the collision approximation to SDF Mesh for the EndEffector
+# omni.kit.commands.execute('ChangeProperty',
+# 	prop_path=current_stage.GetPrimAtPath('/spacelab_robot/link_EE/collisions.physics:approximation'),
+# 	value='sdf',
+# 	prev=None,
+# 	target_layer=Sdf.Find('/home/spacefactory5/Desktop/spacelab_robot/spacelab_robot.usd'),
+# 	usd_context_name=Usd.Stage.Open(rootLayer=Sdf.Find('/home/spacefactory5/Desktop/spacelab_robot/spacelab_robot.usd'), sessionLayer=Sdf.Find('anon:0x719e6411bc80'), pathResolverContext=<invalid repr>))
+
+
+# <<<<<<<<<<<<<<<<<<<< DEBUG >>>>>>>>>>>>>>>>>>>>>>
+# Uncomment this line and comment the lines above to load the usd instead of the urdf
 # prims.create_prim(
 #     SPACELAB_ROBOT_STAGE_PATH,
 #     "Xform",
@@ -206,7 +266,6 @@ try:
                 ("PublishJointState.inputs:topicName", "/isaac_joint_states"),
                 ("SubscribeJointState.inputs:topicName", "/joint_commands_trigger"),
                 ("PublishJointState.inputs:targetPrim", [usdrt.Sdf.Path(ARTICULATED_ROOT_JOINT_PATH)]),
-                ("PublishTF.inputs:targetPrims", [usdrt.Sdf.Path(ARTICULATED_ROOT_JOINT_PATH)]),
                 ("Context.inputs:domain_id", ros_domain_id),
             ],
         }
