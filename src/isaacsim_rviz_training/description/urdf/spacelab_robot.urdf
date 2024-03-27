@@ -4,7 +4,6 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="spacelab_robot">
-  <!-- mass of the end effector -->
   <!-- Material definition. These materials will be used for vizualisation in RVIZ -->
   <material name="black">
     <color rgba="0.0 0.0 0.0 1.0"/>
@@ -30,7 +29,7 @@
   <material name="white">
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
-  <!-- Used for fixing robot to Gazebo 'link_1' -->
+  <!-- Used for fixing robot to the world -->
   <link name="world"/>
   <!-- This first joint is fixed and link the world and the link_1 -->
   <joint name="joint_world_1" type="fixed">
@@ -260,6 +259,7 @@
       </geometry>
     </visual>
     <collision>
+      <!-- <origin xyz="0.0 0.0 0.0" rpy="1.5708 0.0 0.0"  /> -->
       <geometry>
         <mesh filename="package://isaacsim_rviz_training/description/meshes/END_EFFECTOR.dae"/>
       </geometry>
@@ -346,16 +346,7 @@
     <axis xyz="1 0 0"/>
     <limit effort="500" lower="0.0" upper="0.02" velocity="0.05"/>
     <dynamics damping="60.0" friction="4.0"/>
-    <!-- Mimic the movement of joint_EE_Lgripper -->
-    <!-- <mimic joint="joint_EE_Lgripper" multiplier="-1" offset="0" /> -->
   </joint>
-  <!-- The next joint and links are just for debug purposes related to the "_mimic"
-   suffix added by the gazebo ros2 control plugin at the end of the joint -->
-  <!-- <joint name="joint_EE_Rgripper_mimic" type="fixed">
-    <parent link="world" />
-    <child link="random" />
-  </joint>
-  <link name="random"/> -->
   <!-- Definition of the lidar joint -->
   <joint name="joint_world_lidar" type="fixed">
     <origin rpy="3.141592 0.0 3.141592" xyz="0.8 0.0 1.4"/>
@@ -514,10 +505,6 @@
         <param name="min">{-2*pi}</param>
         <param name="max">{2*pi}</param>
       </command_interface>
-      <command_interface name="velocity">
-        <param name="min">-3.15</param>
-        <param name="max">3.15</param>
-      </command_interface>
       <!-- Definition of the state interfaces-->
       <state_interface name="position"/>
       <state_interface name="velocity"/>
@@ -527,10 +514,6 @@
         <param name="min">{-2*pi}</param>
         <param name="max">{2*pi}</param>
       </command_interface>
-      <command_interface name="velocity">
-        <param name="min">-3.15</param>
-        <param name="max">3.15</param>
-      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
@@ -538,10 +521,6 @@
       <command_interface name="position">
         <param name="min">{-2*pi}</param>
         <param name="max">{2*pi}</param>
-      </command_interface>
-      <command_interface name="velocity">
-        <param name="min">-3.15</param>
-        <param name="max">3.15</param>
       </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
@@ -551,10 +530,6 @@
         <param name="min">{-2*pi}</param>
         <param name="max">{2*pi}</param>
       </command_interface>
-      <command_interface name="velocity">
-        <param name="min">-3.15</param>
-        <param name="max">3.15</param>
-      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
@@ -563,10 +538,6 @@
         <param name="min">{-2*pi}</param>
         <param name="max">{2*pi}</param>
       </command_interface>
-      <command_interface name="velocity">
-        <param name="min">-3.15</param>
-        <param name="max">3.15</param>
-      </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
@@ -574,10 +545,6 @@
       <command_interface name="position">
         <param name="min">{-2*pi}</param>
         <param name="max">{2*pi}</param>
-      </command_interface>
-      <command_interface name="velocity">
-        <param name="min">-3.15</param>
-        <param name="max">3.15</param>
       </command_interface>
       <state_interface name="position"/>
       <state_interface name="velocity"/>

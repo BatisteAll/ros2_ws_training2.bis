@@ -62,13 +62,23 @@ def generate_launch_description():
         ]
     )
 
-    # Export the urdf.xacro in a .urdf file to keep a track of the used robot description
+    # Export the urdf.xacro in a .urdf file in /install directory to give ISAAC the robot description
     urdf_export = ExecuteProcess(
         cmd=["xacro",
              PathJoinSubstitution([FindPackageShare(PKG_NAME), "description", "urdf", URDF_FILE+".xacro"]),
              "-o",
              PathJoinSubstitution([get_package_share_directory(PKG_NAME), "description", "urdf", URDF_FILE])
             #  PathJoinSubstitution([os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(get_package_share_directory(PKG_NAME))))), "src", PKG_NAME, "description", "urdf", URDF_FILE])
+             ],
+        output='screen'
+    )
+
+    # Export the urdf.xacro in a .urdf file in /src directory to keep a track of the used robot description
+    urdf_export = ExecuteProcess(
+        cmd=["xacro",
+             PathJoinSubstitution([FindPackageShare(PKG_NAME), "description", "urdf", URDF_FILE+".xacro"]),
+             "-o",
+             PathJoinSubstitution([os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(get_package_share_directory(PKG_NAME))))), "src", PKG_NAME, "description", "urdf", URDF_FILE])
              ],
         output='screen'
     )

@@ -45,7 +45,7 @@ SPACELAB_ROBOT_USD_PATH = "/description/usd/test.usd"       # ---> needed only i
 # ISAAC SIM prim path
 BACKGROUND_STAGE_PATH = "/spacelab_scene"
 SPACELAB_ROBOT_STAGE_PATH = "/spacelab_robot"
-ARTICULATED_ROOT_JOINT_PATH = SPACELAB_ROBOT_STAGE_PATH
+ARTICULATED_ROOT_JOINT_PATH = SPACELAB_ROBOT_STAGE_PATH+"/world"
 
 ########################
 #    VAR DEFINITION    #
@@ -93,7 +93,7 @@ import_config.default_drive_type = _urdf.UrdfJointTargetType.JOINT_DRIVE_POSITIO
 import_config.default_drive_strength = 10000 #1047.19751
 import_config.default_position_drive_damping = 1000 #52.35988
 # import_config.subdivision_scheme
-import_config.convex_decomp = False                                                  # facetization method from visual mesh to create a collision mesh
+import_config.convex_decomp = True                                                  # facetization method from visual mesh to create a collision mesh
 import_config.self_collision = False
 import_config.collision_from_visuals = False
 import_config.create_physics_scene = True
@@ -151,44 +151,44 @@ result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_pa
 context = omni.usd.get_context()
 current_stage = context.get_stage()
 
-# Remove the articulation root from the base link
-omni.kit.commands.execute('RemovePhysicsComponent',
-	usd_prim=current_stage.GetPrimAtPath('/spacelab_robot/world'),
-	component='PhysicsArticulationRootAPI',
-	multiple_api_token=None)
-omni.kit.commands.execute('UnapplyAPISchema',
-	api=UsdPhysics.ArticulationRootAPI,
-	prim=current_stage.GetPrimAtPath('/spacelab_robot/world'),
-	api_prefix=None,
-	multiple_api_token=None)
-omni.kit.commands.execute('UnapplyAPISchema',
-	api=PhysxSchema.PhysxArticulationAPI,
-	prim=current_stage.GetPrimAtPath('/spacelab_robot/world'),
-	api_prefix=None,
-	multiple_api_token=None)
+# # Remove the articulation root from the base link
+# omni.kit.commands.execute('RemovePhysicsComponent',
+# 	usd_prim=current_stage.GetPrimAtPath('/spacelab_robot/world'),
+# 	component='PhysicsArticulationRootAPI',
+# 	multiple_api_token=None)
+# omni.kit.commands.execute('UnapplyAPISchema',
+# 	api=UsdPhysics.ArticulationRootAPI,
+# 	prim=current_stage.GetPrimAtPath('/spacelab_robot/world'),
+# 	api_prefix=None,
+# 	multiple_api_token=None)
+# omni.kit.commands.execute('UnapplyAPISchema',
+# 	api=PhysxSchema.PhysxArticulationAPI,
+# 	prim=current_stage.GetPrimAtPath('/spacelab_robot/world'),
+# 	api_prefix=None,
+# 	multiple_api_token=None)
 
-# Add the articulation root to the ancestor of the base link
-omni.kit.commands.execute("AddPhysicsComponent",
-	usd_prim=current_stage.GetPrimAtPath('/spacelab_robot'),
-	component="PhysicsArticulationRootAPI")
-omni.kit.commands.execute('ApplyAPISchema',
-	api=UsdPhysics.ArticulationRootAPI,
-	prim=current_stage.GetPrimAtPath('/spacelab_robot'))
-omni.kit.commands.execute('ApplyAPISchema',
-	api=PhysxSchema.PhysxArticulationAPI,
-	prim=current_stage.GetPrimAtPath('/spacelab_robot'))
+# # Add the articulation root to the ancestor of the base link
+# omni.kit.commands.execute("AddPhysicsComponent",
+# 	usd_prim=current_stage.GetPrimAtPath('/spacelab_robot'),
+# 	component="PhysicsArticulationRootAPI")
+# omni.kit.commands.execute('ApplyAPISchema',
+# 	api=UsdPhysics.ArticulationRootAPI,
+# 	prim=current_stage.GetPrimAtPath('/spacelab_robot'))
+# omni.kit.commands.execute('ApplyAPISchema',
+# 	api=PhysxSchema.PhysxArticulationAPI,
+# 	prim=current_stage.GetPrimAtPath('/spacelab_robot'))
 
-# Tune the articulation root api
-omni.kit.commands.execute('ChangeProperty',
-	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:enabledSelfCollisions'),
-	value=None,
-	prev=True)
-omni.kit.commands.execute('ChangeProperty',
-	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:solverPositionIterationCount'),
-	value=64)
-omni.kit.commands.execute('ChangeProperty',
-	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:solverVelocityIterationCount'),
-	value=64)
+# # Tune the articulation root api
+# omni.kit.commands.execute('ChangeProperty',
+# 	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:enabledSelfCollisions'),
+# 	value=None,
+# 	prev=True)
+# omni.kit.commands.execute('ChangeProperty',
+# 	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:solverPositionIterationCount'),
+# 	value=64)
+# omni.kit.commands.execute('ChangeProperty',
+# 	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:solverVelocityIterationCount'),
+# 	value=64)
 
 # omni.kit.commands.execute('SetRelationshipTargets',
 # 	relationship=current_stage.GetPrimAtPath('/spacelab_robot/root_joint').GetRelationship('physics:body1'),

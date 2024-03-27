@@ -37,7 +37,7 @@
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
 
-  <!-- Used for fixing robot to Gazebo 'link_1' -->
+  <!-- Used for fixing robot to the world -->
   <link name="world"/>
 
   <!-- This first joint is fixed and link the world and the link_1 -->
