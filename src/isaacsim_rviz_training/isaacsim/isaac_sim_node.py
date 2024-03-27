@@ -36,10 +36,11 @@ PKG_NAME = "isaacsim_rviz_training"
 PKG_PATH = os.path.join(ament_index_python.packages.get_package_share_directory(PKG_NAME))
 # USD paths
 BACKGROUND_USD_PATH = "/description/usd/spacelab_scene.usd"
-SPACELAB_ROBOT_USD_PATH = "/description/usd/without_mimic.usd"
+SPACELAB_ROBOT_USD_PATH = "/description/usd/with_mimic.usd"
 # ISAAC SIM prim path
 BACKGROUND_STAGE_PATH = "/spacelab_scene"
 SPACELAB_ROBOT_STAGE_PATH = "/spacelab_robot"
+ARTICULATION_ROOT_JOINT_PATH = SPACELAB_ROBOT_STAGE_PATH
 # URDF path
 SPACELAB_ROBOT_URDF_PATH = "/description/urdf/spacelab_robot.urdf"
 
@@ -130,16 +131,16 @@ viewports.set_camera_view(eye=np.array([x_camrot, y_camrot, 2.0]), target=np.arr
 stage.add_reference_to_stage(PKG_PATH + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PATH )
 
 # Loading the spacelab robot USD
-result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
+# result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_path=PKG_PATH + SPACELAB_ROBOT_URDF_PATH, import_config=import_config)
 
 # Loading the spacelab robot USD
-# prims.create_prim(
-#     SPACELAB_ROBOT_STAGE_PATH,
-#     "Xform",
-#     position=np.array([0, 0, 0]),
-#     orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
-#     usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
-# )
+prims.create_prim(
+    SPACELAB_ROBOT_STAGE_PATH,
+    "Xform",
+    position=np.array([0, 0, 0]),
+    orientation=rotations.gf_rotation_to_np_array(Gf.Rotation(Gf.Vec3d(0, 0, 1), 0)),
+    usd_path=PKG_PATH + SPACELAB_ROBOT_USD_PATH,
+)
 simulation_app.update()
 
 
@@ -185,11 +186,10 @@ try:
             og.Controller.Keys.SET_VALUES: [
                 # Setting the /spacelab_robot target prim to Articulation Controller node
                 ("ArticulationController.inputs:usePath", True),
-                ("ArticulationController.inputs:robotPath", SPACELAB_ROBOT_STAGE_PATH),
+                ("ArticulationController.inputs:robotPath", ARTICULATION_ROOT_JOINT_PATH),
                 ("PublishJointState.inputs:topicName", "/isaac_joint_states"),
                 ("SubscribeJointState.inputs:topicName", "/joint_commands"),
-                ("PublishJointState.inputs:targetPrim", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
-                ("PublishTF.inputs:targetPrims", [usdrt.Sdf.Path(SPACELAB_ROBOT_STAGE_PATH)]),
+                ("PublishJointState.inputs:targetPrim", [usdrt.Sdf.Path(ARTICULATION_ROOT_JOINT_PATH)]),
                 ("Context.inputs:domain_id", ros_domain_id),
             ],
         }

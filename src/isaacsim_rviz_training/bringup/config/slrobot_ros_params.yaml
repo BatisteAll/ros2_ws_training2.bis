@@ -24,7 +24,7 @@ joint_trajectory_controller:
         - joint_5_6
         - joint_6_7
         - joint_EE_Lgripper
-        - joint_EE_Rgripper
+        # - joint_EE_Rgripper
         
       command_interfaces:
         - position
