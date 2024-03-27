@@ -389,27 +389,47 @@ def main(
         # pick_far
         future_pick_far = slrobot_client.send_goal_robot([1.5053, -1.2618, 1.8317, -2.1601, -1.5708, -0.0654], 3)
         # rclpy.spin_until_future_complete(slrobot_client, future_pick_far)
-        while((time.time()-start_time)<goal_exec_duration*2):
+        while((time.time()-start_time)<goal_exec_duration*2+1):
             rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
-        # rest
+        # pick
         future_pick = slrobot_client.send_goal_robot([1.5053, -1.2095, 1.8841, -2.2383, -1.5708, -0.0654], 3)
         # rclpy.spin_until_future_complete(slrobot_client, future_pick)
-        while((time.time()-start_time)<goal_exec_duration*3):
+        while((time.time()-start_time)<goal_exec_duration*3+1):
             rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
-        # rest
+        # grasp
+        future_grasp = slrobot_client.send_goal_gripper([-0.012, 0.012], 3)
+        # rclpy.spin_until_future_complete(slrobot_client, future_grasp)
+        while((time.time()-start_time)<goal_exec_duration*4+2):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration+1)
+        # pick_far
+        future_pick_far = slrobot_client.send_goal_robot([1.5053, -1.2618, 1.8317, -2.1601, -1.5708, -0.0654], 3)
+        # rclpy.spin_until_future_complete(slrobot_client, future_pick_far)
+        while((time.time()-start_time)<goal_exec_duration*5+1):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
+        # init
+        future_init = slrobot_client.send_goal_robot([-1.5708, -2.5, 2.5, -3.1415, 0.0, 0.0], 3)
+        # rclpy.spin_until_future_complete(slrobot_client, future_init)
+        while((time.time()-start_time)<goal_exec_duration*6+1):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
+        # place_far
         future_place_far = slrobot_client.send_goal_robot([-0.1003, -1.2401, 1.8501, -2.1901, -1.5708, -0.0436], 3)
         # rclpy.spin_until_future_complete(slrobot_client, future_place_far)
-        while((time.time()-start_time)<goal_exec_duration*4):
+        while((time.time()-start_time)<goal_exec_duration*7+1):
             rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
-        # rest
+        # place
         future_place = slrobot_client.send_goal_robot([-0.1003, -1.1921, 1.8588, -2.2381, -1.5708, -0.0436], 3)
         # rclpy.spin_until_future_complete(slrobot_client, future_place)
-        while((time.time()-start_time)<goal_exec_duration*5):
+        while((time.time()-start_time)<goal_exec_duration*8+1):
+            rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
+        # release
+        future_release = slrobot_client.send_goal_gripper([-0.0, 0.0], 3)
+        # rclpy.spin_until_future_complete(slrobot_client, future_release)
+        while((time.time()-start_time)<goal_exec_duration*9+1):
             rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
         # rest
         future_rest = slrobot_client.send_goal_robot([0.0, -2.1817, 2.1817, -1.5708, -1.5708, 0.0], 3)
         # rclpy.spin_until_future_complete(slrobot_client, future_rest)
-        while((time.time()-start_time)<goal_exec_duration*6):
+        while((time.time()-start_time)<goal_exec_duration*10+1):
             rclpy.spin_once(slrobot_client,timeout_sec=goal_exec_duration)
 
 

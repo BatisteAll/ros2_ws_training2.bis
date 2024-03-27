@@ -147,9 +147,12 @@ result, prim_path = omni.kit.commands.execute( "URDFParseAndImportFile", urdf_pa
 # Doc for PhysicsComponent: https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/extensions/ux/source/omni.physx.commands/docs/index.html
 # Doc for GetPrimPath: https://docs.omniverse.nvidia.com/kit/docs/pxr-usd-api/latest/pxr/Usd.html
 
-# Get the stage reference
-context = omni.usd.get_context()
-current_stage = context.get_stage()
+# Tune the articulation root api
+# https://docs.omniverse.nvidia.com/kit/docs/pxr-usd-api/latest/pxr/UsdPhysics.html#pxr.UsdPhysics.ArticulationRootAPI
+stage = omni.usd.get_context().get_stage()
+prim = stage.GetPrimAtPath(ARTICULATED_ROOT_JOINT_PATH)
+physx_artiRoot_api =PhysxSchema.PhysxArticulationAPI.Apply(prim)
+physx_artiRoot_api.GetSolverPositionIterationCountAttr().Set(255)
 
 # # Remove the articulation root from the base link
 # omni.kit.commands.execute('RemovePhysicsComponent',
@@ -178,33 +181,8 @@ current_stage = context.get_stage()
 # 	api=PhysxSchema.PhysxArticulationAPI,
 # 	prim=current_stage.GetPrimAtPath('/spacelab_robot'))
 
-# # Tune the articulation root api
-# omni.kit.commands.execute('ChangeProperty',
-# 	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:enabledSelfCollisions'),
-# 	value=None,
-# 	prev=True)
-# omni.kit.commands.execute('ChangeProperty',
-# 	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:solverPositionIterationCount'),
-# 	value=64)
-# omni.kit.commands.execute('ChangeProperty',
-# 	prop_path=current_stage.GetPrimAtPath('/spacelab_robot.physxArticulation:solverVelocityIterationCount'),
-# 	value=64)
-
-# omni.kit.commands.execute('SetRelationshipTargets',
-# 	relationship=current_stage.GetPrimAtPath('/spacelab_robot/root_joint').GetRelationship('physics:body1'),
-# 	targets=[])
-# omni.kit.commands.execute('SetRelationshipTargets',
-# 	relationship=current_stage.GetPrimAtPath('/spacelab_robot/root_joint').GetRelationship('physics:body0'),
-# 	targets=[Sdf.Path('/spacelab_robot/world')])
 
 
-# Set the collision approximation to SDF Mesh for the EndEffector
-# omni.kit.commands.execute('ChangeProperty',
-# 	prop_path=current_stage.GetPrimAtPath('/spacelab_robot/link_EE/collisions.physics:approximation'),
-# 	value='sdf',
-# 	prev=None,
-# 	target_layer=Sdf.Find('/home/spacefactory5/Desktop/spacelab_robot/spacelab_robot.usd'),
-# 	usd_context_name=Usd.Stage.Open(rootLayer=Sdf.Find('/home/spacefactory5/Desktop/spacelab_robot/spacelab_robot.usd'), sessionLayer=Sdf.Find('anon:0x719e6411bc80'), pathResolverContext=<invalid repr>))
 
 
 # <<<<<<<<<<<<<<<<<<<< DEBUG >>>>>>>>>>>>>>>>>>>>>>
